@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://hxx5yo1660e3"]
+
+[ext_resource type="Script" uid="uid://b2g2t8l4dlof5" path="res://scripts/Card.cs" id="1_mx1t6"]
+[ext_resource type="Texture2D" uid="uid://cb0xpqaoxvad" path="res://icon.svg" id="1_xaftv"]
+
+[node name="Card" type="ColorRect" unique_id=165039965 node_paths=PackedStringArray("ValueLabel1", "ValueLabel2", "SpecialIcon")]
+custom_minimum_size = Vector2(200, 250)
+color = Color(0, 0, 0, 1)
+script = ExtResource("1_mx1t6")
+ValueLabel1 = NodePath("Value")
+ValueLabel2 = NodePath("Value2")
+SpecialIcon = NodePath("Sprite2D")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1788806651]
+custom_minimum_size = Vector2(190, 240)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -95.0
+offset_top = -120.0
+offset_right = 95.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Value" type="Label" parent="." unique_id=1068080487]
+layout_mode = 0
+offset_right = 50.0
+offset_bottom = 70.0
+text = "A"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value2" type="Label" parent="." unique_id=555570061]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -70.0
+grow_horizontal = 0
+grow_vertical = 0
+rotation = 3.1415927
+pivot_offset = Vector2(24, 35)
+text = "A"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1026356868]
+position = Vector2(100, 125)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_xaftv")
