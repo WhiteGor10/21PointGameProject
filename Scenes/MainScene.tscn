@@ -1,3 +1,15 @@
 [gd_scene format=3 uid="uid://cfc06bjegf1uv"]
 
+[ext_resource type="Script" uid="uid://77yqwqvbgvue" path="res://scripts/MainScene.cs" id="1_hpc76"]
+
 [node name="MainScene" type="Node2D" unique_id=1716610342]
+script = ExtResource("1_hpc76")
+
+[node name="Button" type="Button" parent="." unique_id=1897343915]
+offset_left = 211.0
+offset_top = 105.0
+offset_right = 519.0
+offset_bottom = 328.0
+text = "Start"
+
+[connection signal="pressed" from="Button" to="." method="DebugStart"]

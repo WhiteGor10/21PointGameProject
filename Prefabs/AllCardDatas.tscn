@@ -1,0 +1,205 @@
+[gd_scene format=3 uid="uid://cag3fhy6gxf5s"]
+
+[ext_resource type="Script" uid="uid://lf1be0h7a0p0" path="res://scripts/AllCardDatas.cs" id="1_skk7b"]
+[ext_resource type="Script" uid="uid://mt5g077rtgru" path="res://scripts/CardData.cs" id="1_w6osq"]
+
+[node name="AllCardDatas" type="Node2D" unique_id=1958667261]
+script = ExtResource("1_skk7b")
+
+[node name="Devil" type="Node" parent="." unique_id=1670043536]
+script = ExtResource("1_w6osq")
+CardName = "恶魔"
+CardDescription = "可当作1-10的任意数"
+SpecialFunctionIndex = 0
+
+[node name="IncreaseR1" type="Node" parent="." unique_id=415249631]
+script = ExtResource("1_w6osq")
+CardName = "增幅"
+CardDescription = "右方卡牌数字+1"
+IsRandomCardValue = true
+SpecialFunctionIndex = 1
+SpecialFunctionValue = 1
+
+[node name="IncreaseR2" type="Node" parent="." unique_id=496108551]
+script = ExtResource("1_w6osq")
+CardName = "增幅"
+CardDescription = "右方卡牌数字+2"
+IsRandomCardValue = true
+SpecialFunctionIndex = 1
+SpecialFunctionValue = 2
+
+[node name="IncreaseR4" type="Node" parent="." unique_id=1885231812]
+script = ExtResource("1_w6osq")
+CardName = "增幅"
+CardDescription = "右方卡牌数字+4"
+IsRandomCardValue = true
+SpecialFunctionIndex = 1
+SpecialFunctionValue = 4
+
+[node name="DecreaseR1" type="Node" parent="." unique_id=1244119719]
+script = ExtResource("1_w6osq")
+CardName = "减幅"
+CardDescription = "右方卡牌数字-1"
+IsRandomCardValue = true
+SpecialFunctionIndex = 1
+SpecialFunctionValue = -1
+
+[node name="DecreaseR2" type="Node" parent="." unique_id=1706119717]
+script = ExtResource("1_w6osq")
+CardName = "减幅"
+CardDescription = "右方卡牌数字-2"
+IsRandomCardValue = true
+SpecialFunctionIndex = 1
+SpecialFunctionValue = -2
+
+[node name="DecreaseR4" type="Node" parent="." unique_id=1405263756]
+script = ExtResource("1_w6osq")
+CardName = "减幅"
+CardDescription = "右方卡牌数字-4"
+IsRandomCardValue = true
+SpecialFunctionIndex = 1
+SpecialFunctionValue = -4
+
+[node name="IncreaseL1" type="Node" parent="." unique_id=161941609]
+script = ExtResource("1_w6osq")
+CardName = "增幅"
+CardDescription = "左方卡牌数字+1"
+IsRandomCardValue = true
+SpecialFunctionIndex = 2
+SpecialFunctionValue = 1
+
+[node name="IncreaseL2" type="Node" parent="." unique_id=2088237190]
+script = ExtResource("1_w6osq")
+CardName = "增幅"
+CardDescription = "左方卡牌数字+2"
+IsRandomCardValue = true
+SpecialFunctionIndex = 2
+SpecialFunctionValue = 2
+
+[node name="IncreaseL4" type="Node" parent="." unique_id=1847200355]
+script = ExtResource("1_w6osq")
+CardName = "增幅"
+CardDescription = "左方卡牌数字+4"
+IsRandomCardValue = true
+SpecialFunctionIndex = 2
+SpecialFunctionValue = 4
+
+[node name="DecreaseL1" type="Node" parent="." unique_id=649556123]
+script = ExtResource("1_w6osq")
+CardName = "减幅"
+CardDescription = "左方卡牌数字-1"
+IsRandomCardValue = true
+SpecialFunctionIndex = 2
+SpecialFunctionValue = -1
+
+[node name="DecreaseL2" type="Node" parent="." unique_id=1238612294]
+script = ExtResource("1_w6osq")
+CardName = "减幅"
+CardDescription = "左方卡牌数字-2"
+IsRandomCardValue = true
+SpecialFunctionIndex = 2
+SpecialFunctionValue = -2
+
+[node name="DecreaseL4" type="Node" parent="." unique_id=1046129327]
+script = ExtResource("1_w6osq")
+CardName = "减幅"
+CardDescription = "左方卡牌数字-4"
+IsRandomCardValue = true
+SpecialFunctionIndex = 2
+SpecialFunctionValue = -4
+
+[node name="IncreaseNeighbor1" type="Node" parent="." unique_id=1418395782]
+script = ExtResource("1_w6osq")
+CardName = "传导"
+CardDescription = "相邻卡牌数字+1"
+IsRandomCardValue = true
+SpecialFunctionIndex = 3
+SpecialFunctionValue = 1
+
+[node name="IncreaseNeighbor2" type="Node" parent="." unique_id=1192505209]
+script = ExtResource("1_w6osq")
+CardName = "传导"
+CardDescription = "相邻卡牌数字+2"
+IsRandomCardValue = true
+SpecialFunctionIndex = 3
+SpecialFunctionValue = 2
+
+[node name="IncreaseNeighbor4" type="Node" parent="." unique_id=1789614949]
+script = ExtResource("1_w6osq")
+CardName = "传导"
+CardDescription = "相邻卡牌数字+4"
+IsRandomCardValue = true
+SpecialFunctionIndex = 3
+SpecialFunctionValue = 4
+
+[node name="DecreaseNeighbor1" type="Node" parent="." unique_id=341784865]
+script = ExtResource("1_w6osq")
+CardName = "传导"
+CardDescription = "相邻卡牌数字-1"
+IsRandomCardValue = true
+SpecialFunctionIndex = 3
+SpecialFunctionValue = 1
+
+[node name="DecreaseNeighbor2" type="Node" parent="." unique_id=2950334]
+script = ExtResource("1_w6osq")
+CardName = "传导"
+CardDescription = "相邻卡牌数字-2"
+IsRandomCardValue = true
+SpecialFunctionIndex = 3
+SpecialFunctionValue = -2
+
+[node name="DecreaseNeighbor4" type="Node" parent="." unique_id=138778552]
+script = ExtResource("1_w6osq")
+CardName = "传导"
+CardDescription = "相邻卡牌数字-4"
+IsRandomCardValue = true
+SpecialFunctionIndex = 3
+SpecialFunctionValue = -4
+
+[node name="IncreaseAll1" type="Node" parent="." unique_id=916913606]
+script = ExtResource("1_w6osq")
+CardName = "共振"
+CardDescription = "所有卡牌数字+1"
+IsRandomCardValue = true
+SpecialFunctionIndex = 4
+SpecialFunctionValue = 1
+
+[node name="IncreaseAll2" type="Node" parent="." unique_id=904401304]
+script = ExtResource("1_w6osq")
+CardName = "共振"
+CardDescription = "所有卡牌数字+2"
+IsRandomCardValue = true
+SpecialFunctionIndex = 4
+SpecialFunctionValue = 2
+
+[node name="IncreaseAll3" type="Node" parent="." unique_id=738132491]
+script = ExtResource("1_w6osq")
+CardName = "共振"
+CardDescription = "所有卡牌数字+3"
+IsRandomCardValue = true
+SpecialFunctionIndex = 4
+SpecialFunctionValue = 3
+
+[node name="DecreaseAll1" type="Node" parent="." unique_id=735029004]
+script = ExtResource("1_w6osq")
+CardName = "共振"
+CardDescription = "所有卡牌数字-1"
+IsRandomCardValue = true
+SpecialFunctionIndex = 4
+SpecialFunctionValue = -1
+
+[node name="DecreaseAll2" type="Node" parent="." unique_id=350880903]
+script = ExtResource("1_w6osq")
+CardName = "共振"
+CardDescription = "所有卡牌数字-2"
+IsRandomCardValue = true
+SpecialFunctionIndex = 4
+SpecialFunctionValue = -2
+
+[node name="DecreaseAll3" type="Node" parent="." unique_id=747313292]
+script = ExtResource("1_w6osq")
+CardName = "共振"
+CardDescription = "所有卡牌数字-3"
+IsRandomCardValue = true
+SpecialFunctionIndex = 4
+SpecialFunctionValue = -3

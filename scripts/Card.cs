@@ -8,8 +8,10 @@ public partial class Card : ColorRect
 	[Export]
 	public Label ValueLabel2;
 	[Export]
+	public Label DescriptionLabel;
+	[Export]
 	public Sprite2D SpecialIcon;
-	public int CardValue;
+	public int CardValue;			// 0 is Devil
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -19,10 +21,15 @@ public partial class Card : ColorRect
 	public override void _Process(double delta)
 	{
 	}
-	public void SetCardValue(int value)
+	public void SetCardValue(CardData cardData)
 	{
+		DescriptionLabel.Text = cardData.CardDescription;
+		this.SpecialIcon.Texture = cardData.CardTexture;
+		int value = cardData.CardValue;
+
 		string valueString;
 		CardValue = value;
+		
 		if (value == 1)
 		{
 			valueString = "A";
@@ -46,6 +53,10 @@ public partial class Card : ColorRect
 		else
 		{
 			valueString = value.ToString();
+		}
+		if (cardData.SpecialFunctionIndex == CardData.SpecialFunction.Devil)
+		{
+			valueString = "?";
 		}
 		ValueLabel1.Text = valueString;
 		ValueLabel2.Text = valueString;

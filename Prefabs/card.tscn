@@ -3,12 +3,13 @@
 [ext_resource type="Script" uid="uid://b2g2t8l4dlof5" path="res://scripts/Card.cs" id="1_mx1t6"]
 [ext_resource type="Texture2D" uid="uid://cb0xpqaoxvad" path="res://icon.svg" id="1_xaftv"]
 
-[node name="Card" type="ColorRect" unique_id=165039965 node_paths=PackedStringArray("ValueLabel1", "ValueLabel2", "SpecialIcon")]
+[node name="Card" type="ColorRect" unique_id=165039965 node_paths=PackedStringArray("ValueLabel1", "ValueLabel2", "DescriptionLabel", "SpecialIcon")]
 custom_minimum_size = Vector2(200, 250)
 color = Color(0, 0, 0, 1)
 script = ExtResource("1_mx1t6")
 ValueLabel1 = NodePath("Value")
 ValueLabel2 = NodePath("Value2")
+DescriptionLabel = NodePath("Description")
 SpecialIcon = NodePath("Sprite2D")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1788806651]
@@ -51,7 +52,20 @@ text = "A"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Description" type="Label" parent="." unique_id=1466732204]
+custom_minimum_size = Vector2(190, 71)
+layout_mode = 0
+offset_left = 5.0
+offset_top = 90.0
+offset_right = 195.0
+offset_bottom = 161.0
+theme_override_font_sizes/font_size = 24
+text = "相邻卡牌数字-2"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1026356868]
-position = Vector2(100, 125)
+position = Vector2(100, 70)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("1_xaftv")
