@@ -12,4 +12,11 @@ offset_right = 519.0
 offset_bottom = 328.0
 text = "Start"
 
+[node name="Label" type="Label" parent="." unique_id=707710619]
+offset_left = 742.0
+offset_top = 200.0
+offset_right = 1089.0
+offset_bottom = 357.0
+text = "123"
+
 [connection signal="pressed" from="Button" to="." method="DebugStart"]
