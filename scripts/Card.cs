@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public partial class Card : ColorRect
 {
@@ -8,10 +9,18 @@ public partial class Card : ColorRect
 	[Export]
 	public Label ValueLabel2;
 	[Export]
+	public Label ValueChangeLabel;
+	[Export]
 	public Label DescriptionLabel;
 	[Export]
 	public Sprite2D SpecialIcon;
-	public int CardValue;			// 0 is Devil
+	[Export]
+	public AnimationPlayer animationPlayer;
+
+	public CardData.SpecialFunction specialFunction;
+	public int SpecialFunctionValue;
+	public bool IsAce = false;
+	public int CardValue;			
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -21,15 +30,40 @@ public partial class Card : ColorRect
 	public override void _Process(double delta)
 	{
 	}
+	public async Task AnimateValueChange(int valueChange)
+	{
+		if (IsAce || specialFunction == CardData.SpecialFunction.Devil)
+		{
+			return;
+		}
+		ValueChangeLabel.Text = valueChange.ToString();
+		if (valueChange > 0)
+		{
+			ValueChangeLabel.Text = "+" + valueChange.ToString();
+		}
+
+		animationPlayer.Play("ValueChange");
+		double time = animationPlayer.GetSectionEndTime();
+		await ToSignal(GetTree().CreateTimer(time), SceneTreeTimer.SignalName.Timeout);
+
+		
+		CardValue += valueChange;
+		string valueString = CardValue.ToString();
+		ValueLabel1.Text = valueString;
+		ValueLabel2.Text = valueString;
+	}
 	public void SetCardValue(CardData cardData)
 	{
 		DescriptionLabel.Text = cardData.CardDescription;
 		this.SpecialIcon.Texture = cardData.CardTexture;
+		specialFunction = cardData.SpecialFunctionIndex;
+		SpecialFunctionValue = cardData.SpecialFunctionValue;
+		IsAce = cardData.IsAce;
 		int value = cardData.CardValue;
 
 		string valueString;
 		CardValue = value;
-		
+
 		if (value == 1)
 		{
 			valueString = "A";

@@ -138,7 +138,7 @@ CardName = "传导"
 CardDescription = "相邻卡牌数字-1"
 IsRandomCardValue = true
 SpecialFunctionIndex = 3
-SpecialFunctionValue = 1
+SpecialFunctionValue = -1
 
 [node name="DecreaseNeighbor2" type="Node" parent="." unique_id=2950334]
 script = ExtResource("1_w6osq")
@@ -159,7 +159,7 @@ SpecialFunctionValue = -4
 [node name="IncreaseAll1" type="Node" parent="." unique_id=916913606]
 script = ExtResource("1_w6osq")
 CardName = "共振"
-CardDescription = "所有卡牌数字+1"
+CardDescription = "抽到此卡时，所有卡牌数字+1"
 IsRandomCardValue = true
 SpecialFunctionIndex = 4
 SpecialFunctionValue = 1
@@ -167,7 +167,7 @@ SpecialFunctionValue = 1
 [node name="IncreaseAll2" type="Node" parent="." unique_id=904401304]
 script = ExtResource("1_w6osq")
 CardName = "共振"
-CardDescription = "所有卡牌数字+2"
+CardDescription = "抽到此卡时，所有卡牌数字+2"
 IsRandomCardValue = true
 SpecialFunctionIndex = 4
 SpecialFunctionValue = 2
@@ -175,7 +175,7 @@ SpecialFunctionValue = 2
 [node name="IncreaseAll3" type="Node" parent="." unique_id=738132491]
 script = ExtResource("1_w6osq")
 CardName = "共振"
-CardDescription = "所有卡牌数字+3"
+CardDescription = "抽到此卡时，所有卡牌数字+3"
 IsRandomCardValue = true
 SpecialFunctionIndex = 4
 SpecialFunctionValue = 3
@@ -183,7 +183,7 @@ SpecialFunctionValue = 3
 [node name="DecreaseAll1" type="Node" parent="." unique_id=735029004]
 script = ExtResource("1_w6osq")
 CardName = "共振"
-CardDescription = "所有卡牌数字-1"
+CardDescription = "抽到此卡时，所有卡牌数字-1"
 IsRandomCardValue = true
 SpecialFunctionIndex = 4
 SpecialFunctionValue = -1
@@ -191,7 +191,7 @@ SpecialFunctionValue = -1
 [node name="DecreaseAll2" type="Node" parent="." unique_id=350880903]
 script = ExtResource("1_w6osq")
 CardName = "共振"
-CardDescription = "所有卡牌数字-2"
+CardDescription = "抽到此卡时，所有卡牌数字-2"
 IsRandomCardValue = true
 SpecialFunctionIndex = 4
 SpecialFunctionValue = -2
@@ -199,7 +199,7 @@ SpecialFunctionValue = -2
 [node name="DecreaseAll3" type="Node" parent="." unique_id=747313292]
 script = ExtResource("1_w6osq")
 CardName = "共振"
-CardDescription = "所有卡牌数字-3"
+CardDescription = "抽到此卡时，所有卡牌数字-3"
 IsRandomCardValue = true
 SpecialFunctionIndex = 4
 SpecialFunctionValue = -3

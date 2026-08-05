@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://bk70oyf8od8uw"]
 
-[ext_resource type="Script" uid="uid://cqmn2bedtxlaa" path="res://scripts/CombatScene.cs" id="1_2mqg5"]
-[ext_resource type="PackedScene" uid="uid://hxx5yo1660e3" path="res://Prefabs/card.tscn" id="2_dqj0d"]
+[ext_resource type="Script" uid="uid://cqmn2bedtxlaa" path="res://scripts/CombatScene.cs" id="1_rx5ct"]
+[ext_resource type="PackedScene" uid="uid://hxx5yo1660e3" path="res://Prefabs/card.tscn" id="2_h7esm"]
+[ext_resource type="Script" uid="uid://dxdmtoe4tktn4" path="res://scripts/WinLosePanel.cs" id="3_yi6w0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gnrv8"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -16,14 +17,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_2mqg5")
+script = ExtResource("1_rx5ct")
 OpponentCardContainer = NodePath("MarginContainer/VBoxContainer/HBoxContainer/OpponentCards")
 PlayerCardContainer = NodePath("MarginContainer/VBoxContainer/HBoxContainer2/PlayerCards")
 OpponentTotalValueLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer/TotalPt/Label")
 PlayerTotalValueLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer2/TotalPt/Label")
 GetCardButton = NodePath("MarginContainer/VBoxContainer/Buttons/Continue")
 StopButton = NodePath("MarginContainer/VBoxContainer/Buttons/Stop")
-CardPrefab = ExtResource("2_dqj0d")
+CardPrefab = ExtResource("2_h7esm")
 WinLosePanel = NodePath("WinLosePanel")
 WinLoseLabel = NodePath("WinLosePanel/PanelContainer/VBoxContainer/Label")
 
@@ -63,7 +64,7 @@ custom_minimum_size = Vector2(620, 250)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_constants/separation = -60
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="TotalPt" type="ColorRect" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1203701474]
@@ -101,7 +102,7 @@ custom_minimum_size = Vector2(620, 250)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_constants/separation = -60
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="TotalPt" type="ColorRect" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=2020885614]
@@ -138,8 +139,7 @@ custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 text = "发牌"
 
-[node name="WinLosePanel" type="PanelContainer" parent="." unique_id=1676944007]
-visible = false
+[node name="WinLosePanel" type="PanelContainer" parent="." unique_id=1676944007 node_paths=PackedStringArray("MainContent", "HideButton")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -147,6 +147,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_gnrv8")
+script = ExtResource("3_yi6w0")
+MainContent = NodePath("PanelContainer")
+HideButton = NodePath("HideButtons/Button")
+
+[node name="HideButtons" type="MarginContainer" parent="WinLosePanel" unique_id=29334810]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+
+[node name="Button" type="Button" parent="WinLosePanel/HideButtons" unique_id=175427181]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "隐藏"
 
 [node name="PanelContainer" type="PanelContainer" parent="WinLosePanel" unique_id=1198595919]
 custom_minimum_size = Vector2(900, 700)
@@ -176,4 +192,5 @@ text = "继续"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/Stop" to="." method="OnPressStop"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/Continue" to="." method="OnPressGetCard"]
+[connection signal="pressed" from="WinLosePanel/HideButtons/Button" to="WinLosePanel" method="HideOrShowMainContent"]
 [connection signal="pressed" from="WinLosePanel/PanelContainer/VBoxContainer/Button" to="." method="OnPressContinue"]

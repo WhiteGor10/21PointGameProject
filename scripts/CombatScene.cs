@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public partial class CombatScene : Control
 {
@@ -28,7 +29,7 @@ public partial class CombatScene : Control
 	public Card[] OpponentCards;
 	public Card[] PlayerCards;
 	private bool IsOpponentStop = false;
-	private int EndStatus = -1;			// -1: not end, 0 lose, 1 draw, 2 win
+	private int EndStatus = -1;         // -1: not end, 0 lose, 1 draw, 2 win
 	private Random random = new Random();
 	public override void _Ready()
 	{
@@ -42,39 +43,42 @@ public partial class CombatScene : Control
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		
+
 	}
-	public void GameStart()
+	public async void GameStart()
 	{
+		WinLosePanel.Visible = false;
 		OpponentCards = new Card[0];
 		PlayerCards = new Card[0];
-		OpponentDrawCard();
-		PlayerDrawCard();
+		await OpponentDrawCard();
+		await PlayerDrawCard();
 		updateUI();
-		WinLosePanel.Visible = false;
 	}
 	public void InjectCardStorage()         //should be from some autoload script, but just test for now
 	{
 		CardData[] TempCardDatas = new CardData[0];       //for test
-		for (int i = 0; i < 200; i++)        //temp add 50 Devil, -ve card for test
+		for (int i = 0; i < 220; i++)        //temp add 50 Devil, -ve card for test
 		{
-			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[0]);
-			TempCardDatas = Tool.AddElementToArray(TempCardDatas, new CardData(-1 * random.Next(1,11)));
+			TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[random.Next(1, 25)]);
+			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, new CardData(-1 * random.Next(1,11)));
 		}
 
-
-
 		foreach (CardData cardData in TempCardDatas)
+		{
+			CardData CopyCard = new CardData(cardData);
+			if (cardData.SpecialFunctionIndex != CardData.SpecialFunction.None)
 			{
-				if (cardData.SpecialFunctionIndex != CardData.SpecialFunction.None)
+				if (cardData.IsRandomCardValue)
 				{
-					if (cardData.IsRandomCardValue)
+					CopyCard.CardValue = random.Next(1, 11);
+					if (CopyCard.CardValue == 1)
 					{
-						cardData.CardValue = random.Next(1, 11);
+						CopyCard.IsAce = true;
 					}
 				}
-				PlayerCardStorage = Tool.AddElementToArray(PlayerCardStorage, cardData);
 			}
+			PlayerCardStorage = Tool.AddElementToArray(PlayerCardStorage, CopyCard);
+		}
 	}
 	public async void OnPressStop()
 	{
@@ -84,7 +88,7 @@ public partial class CombatScene : Control
 		while (!IsOpponentStop)
 		{
 			await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
-			OpponentAction();
+			await OpponentAction();
 			updateUI();
 		}
 
@@ -112,9 +116,11 @@ public partial class CombatScene : Control
 	}
 	public async void OnPressGetCard()
 	{
-		PlayerDrawCard();
+
 		GetCardButton.Disabled = true;
 		StopButton.Disabled = true;
+
+		await PlayerDrawCard();
 
 		if (TotalValue(PlayerCards) > 21)
 		{
@@ -128,14 +134,14 @@ public partial class CombatScene : Control
 		if (!IsOpponentStop)
 		{
 			await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
-			OpponentAction();
+			await OpponentAction();
 		}
 
 		GetCardButton.Disabled = false;
 		StopButton.Disabled = false;
 		updateUI();
 	}
-	public async void OpponentAction()
+	public async Task OpponentAction()
 	{
 		int AffordableDifference = 5;   //later may differ
 		int SelfTotalValue = TotalValue(OpponentCards);
@@ -145,7 +151,7 @@ public partial class CombatScene : Control
 		}
 		else
 		{
-			OpponentDrawCard();
+			await OpponentDrawCard();
 			if (TotalValue(OpponentCards) > 21)
 			{
 				updateUI();
@@ -156,31 +162,68 @@ public partial class CombatScene : Control
 			}
 		}
 	}
-	public void PlayerDrawCard()
+	public async Task PlayerDrawCard()
 	{
 		int PyId = random.Next(0, PlayerCardStorage.Length);
 		PlayerCards = Tool.AddElementToArray(PlayerCards, AddACard(PlayerCardStorage[PyId], PlayerCardContainer, PlayerCards.Length + 1));
 		PlayerCardStorage = Tool.DeleteElementFromArray(PyId, PlayerCardStorage);
+		await ActsSpecialActionsAfterDraw(true);
 	}
-	public void OpponentDrawCard()
+	public async Task OpponentDrawCard()
 	{
 		int OpId = random.Next(0, OpponentCardStorge.Length);
 		OpponentCards = Tool.AddElementToArray(OpponentCards, AddACard(OpponentCardStorge[OpId], OpponentCardContainer, OpponentCards.Length + 1));
 		OpponentCardStorge = Tool.DeleteElementFromArray(OpId, OpponentCardStorge);
+		await ActsSpecialActionsAfterDraw(false);
+	}
+	public async Task ActsSpecialActionsAfterDraw(bool IsPlayer)
+	{
+		Card[] Array;
+		if (IsPlayer)
+		{
+			Array = PlayerCards;
+		}
+		else
+		{
+			Array = OpponentCards;
+		}
+		int Count = Array.Length;
+		if (Count > 0)          //Affect All
+		{
+			if (Array[Count - 1].specialFunction == CardData.SpecialFunction.AffectAll)
+			{
+				for (int i = 0; i < Count; i++)
+				{
+					await Array[i].AnimateValueChange(Array[Count - 1].SpecialFunctionValue);
+				}
+			}
+		}
+		await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
+		if (Count > 1)         //AffectRight, left and neighbor
+		{
+			if (Array[Count - 2].specialFunction == CardData.SpecialFunction.AffectRight || Array[Count - 2].specialFunction == CardData.SpecialFunction.AffectNeighbor)
+			{
+				await Array[Count - 1].AnimateValueChange(Array[Count - 2].SpecialFunctionValue);
+			}
+			if (Array[Count - 1].specialFunction == CardData.SpecialFunction.AffectLeft || Array[Count - 1].specialFunction == CardData.SpecialFunction.AffectNeighbor)
+			{
+				await Array[Count - 2].AnimateValueChange(Array[Count - 1].SpecialFunctionValue);
+			}
+		}
 	}
 
 	public int TotalValue(Card[] cards)
 	{
 		int TotalValue = 0;
-		int NumOfAces = 0,  NumOfDevil = 0;
+		int NumOfAces = 0, NumOfDevil = 0;
 		foreach (Card card in cards)
 		{
 			TotalValue += card.CardValue;
-			if (card.CardValue == 11)
+			if (card.IsAce)
 			{
 				NumOfAces++;
 			}
-			else if (card.CardValue == 0)
+			else if (card.specialFunction == CardData.SpecialFunction.Devil)
 			{
 				TotalValue += 10;
 				NumOfDevil++;
@@ -217,17 +260,17 @@ public partial class CombatScene : Control
 		WinLosePanel.Visible = true;
 		WinLoseLabel.Text = result;
 	}
-	public void OnPressContinue()		//Exit the Scene
+	public void OnPressContinue()       //Exit the Scene
 	{
-		GetTree().ChangeSceneToFile("res://Scenes/CombatScene.tscn");
+		GetTree().ChangeSceneToFile("res://scenes/MainScene.tscn");
 	}
-	public Card AddACard(CardData cardData, HBoxContainer parent, int NumOfCard)	//NumOfCardinclude the card to be added
+	public Card AddACard(CardData cardData, HBoxContainer parent, int NumOfCard)    //NumOfCardinclude the card to be added
 	{
 		Card card = CardPrefab.Instantiate<Card>();
 		card.SetCardValue(cardData);
 		parent.AddChild(card);
 
-		if (NumOfCard >= 5)
+		if (NumOfCard >= 4)
 		{
 			float sep = (620 - (NumOfCard * card.Size.X)) / (NumOfCard - 1);
 			sep = Mathf.FloorToInt(sep);
@@ -242,6 +285,7 @@ public partial class CombatScene : Control
 			for (int j = 0; j < 4; j++)
 			{
 				storage = Tool.AddElementToArray(storage, new CardData(i));
+
 			}
 		}
 		return storage;

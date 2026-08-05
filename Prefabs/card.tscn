@@ -3,14 +3,77 @@
 [ext_resource type="Script" uid="uid://b2g2t8l4dlof5" path="res://scripts/Card.cs" id="1_mx1t6"]
 [ext_resource type="Texture2D" uid="uid://cb0xpqaoxvad" path="res://icon.svg" id="1_xaftv"]
 
-[node name="Card" type="ColorRect" unique_id=165039965 node_paths=PackedStringArray("ValueLabel1", "ValueLabel2", "DescriptionLabel", "SpecialIcon")]
+[sub_resource type="Animation" id="Animation_u6lgx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ChangeValue:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ChangeValue:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(50, -60)]
+}
+
+[sub_resource type="Animation" id="Animation_mx1t6"]
+resource_name = "ValueChange"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ChangeValue:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ChangeValue:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.8),
+"transitions": PackedFloat32Array(1, 5.656854, 1),
+"update": 0,
+"values": [Vector2(50, 0), Vector2(50, -60), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u6lgx"]
+_data = {
+&"RESET": SubResource("Animation_u6lgx"),
+&"ValueChange": SubResource("Animation_mx1t6")
+}
+
+[node name="Card" type="ColorRect" unique_id=165039965 node_paths=PackedStringArray("ValueLabel1", "ValueLabel2", "ValueChangeLabel", "DescriptionLabel", "SpecialIcon", "animationPlayer")]
 custom_minimum_size = Vector2(200, 250)
 color = Color(0, 0, 0, 1)
 script = ExtResource("1_mx1t6")
 ValueLabel1 = NodePath("Value")
 ValueLabel2 = NodePath("Value2")
+ValueChangeLabel = NodePath("ChangeValue")
 DescriptionLabel = NodePath("Description")
 SpecialIcon = NodePath("Sprite2D")
+animationPlayer = NodePath("AnimationPlayer")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1788806651]
 custom_minimum_size = Vector2(190, 240)
@@ -32,6 +95,19 @@ layout_mode = 0
 offset_right = 50.0
 offset_bottom = 70.0
 text = "A"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ChangeValue" type="Label" parent="." unique_id=1737639566]
+visible = false
+z_index = 1
+layout_mode = 0
+offset_left = 50.0
+offset_top = -60.0
+offset_right = 100.00058
+offset_bottom = 10.0
+theme_override_colors/font_color = Color(1, 0.9098039, 0.09019608, 1)
+text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -69,3 +145,6 @@ autowrap_mode = 2
 position = Vector2(100, 70)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("1_xaftv")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=786126462]
+libraries/ = SubResource("AnimationLibrary_u6lgx")

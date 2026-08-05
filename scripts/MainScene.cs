@@ -15,7 +15,7 @@ public partial class MainScene : Node2D
 
 	public void DebugStart()
 	{
-		GetTree().ChangeSceneToFile("res://Scenes/CombatScene.tscn");
+		GetTree().ChangeSceneToFile("res://scenes/CombatScene.tscn");
 	}
 
 }

@@ -17,12 +17,13 @@ public partial class CardData : Node
 	public SpecialFunction SpecialFunctionIndex = SpecialFunction.None;           //-1 no special, ...
 	[Export]
 	public int SpecialFunctionValue;
+	public bool IsAce = false;
 
 	public enum SpecialFunction
 	{
 		None = -1,
 		Devil,
-		AffectRight, AffectLeft, AffectNeighbor, AffectAll,
+		AffectRight, AffectLeft, AffectNeighbor, AffectAll
 
 
 	}
@@ -31,6 +32,27 @@ public partial class CardData : Node
 		CardName = value.ToString();
 		CardValue = value;
 		SpecialFunctionIndex = SpecialFunction.None;
+		if (value == 1)
+		{
+			IsAce = true;
+		}
+	}
+	public CardData(int value, SpecialFunction specialFunction, int specialFunctionValue)     
+	{
+		CardName = value.ToString();
+		CardValue = value;
+		this.SpecialFunctionIndex = specialFunction;
+		this.SpecialFunctionValue = specialFunctionValue;
+	}
+	public CardData(CardData cardData)      //Copy Consturtor
+	{
+		CardName = cardData.CardName;
+		CardDescription = cardData.CardDescription;
+		CardTexture = cardData.CardTexture;
+		CardValue = cardData.CardValue;		
+		IsRandomCardValue = false;
+		SpecialFunctionIndex = cardData.SpecialFunctionIndex;  
+ 		SpecialFunctionValue = cardData.SpecialFunctionValue;
 	}
 	public CardData()
 	{

@@ -6,10 +6,10 @@
 script = ExtResource("1_hpc76")
 
 [node name="Button" type="Button" parent="." unique_id=1897343915]
-offset_left = 211.0
-offset_top = 105.0
-offset_right = 519.0
-offset_bottom = 328.0
+offset_left = 695.0
+offset_top = 460.0
+offset_right = 1003.0
+offset_bottom = 683.0
 text = "Start"
 
 [node name="Label" type="Label" parent="." unique_id=707710619]
