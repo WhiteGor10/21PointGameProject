@@ -59,7 +59,9 @@ public partial class CombatScene : Control
 		CardData[] TempCardDatas = new CardData[0];       //for test
 		for (int i = 0; i < 220; i++)        //temp add 50 Devil, -ve card for test
 		{
-			TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[random.Next(1, 25)]);
+			TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[random.Next(36, 39)]);
+			TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[32]);
+			TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[38]);
 			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, new CardData(-1 * random.Next(1,11)));
 		}
 
@@ -145,7 +147,8 @@ public partial class CombatScene : Control
 	{
 		int AffordableDifference = 5;   //later may differ
 		int SelfTotalValue = TotalValue(OpponentCards);
-		if (SelfTotalValue >= 21 - AffordableDifference && TotalValue(OpponentCards) > TotalValue(PlayerCards))
+		if ((SelfTotalValue >= 21 - AffordableDifference && TotalValue(OpponentCards) > TotalValue(PlayerCards))
+			||  TotalValue(OpponentCards) == 21)
 		{
 			IsOpponentStop = true;
 		}
@@ -164,6 +167,14 @@ public partial class CombatScene : Control
 	}
 	public async Task PlayerDrawCard()
 	{
+		if (PlayerCardStorage.Length == 0)
+		{
+			updateUI();
+			await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+			ShowWinLosePanel("你没牌了，你输了！");
+			IsOpponentStop = true;
+			EndStatus = 0;
+		}
 		int PyId = random.Next(0, PlayerCardStorage.Length);
 		PlayerCards = Tool.AddElementToArray(PlayerCards, AddACard(PlayerCardStorage[PyId], PlayerCardContainer, PlayerCards.Length + 1));
 		PlayerCardStorage = Tool.DeleteElementFromArray(PyId, PlayerCardStorage);
@@ -171,6 +182,14 @@ public partial class CombatScene : Control
 	}
 	public async Task OpponentDrawCard()
 	{
+		if (OpponentCardStorge.Length == 0)
+		{
+			updateUI();
+			await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+			ShowWinLosePanel("他没牌了，你赢了！");
+			IsOpponentStop = true;
+			EndStatus = 2;
+		}
 		int OpId = random.Next(0, OpponentCardStorge.Length);
 		OpponentCards = Tool.AddElementToArray(OpponentCards, AddACard(OpponentCardStorge[OpId], OpponentCardContainer, OpponentCards.Length + 1));
 		OpponentCardStorge = Tool.DeleteElementFromArray(OpId, OpponentCardStorge);
@@ -179,13 +198,16 @@ public partial class CombatScene : Control
 	public async Task ActsSpecialActionsAfterDraw(bool IsPlayer)
 	{
 		Card[] Array;
+		HBoxContainer parent;
 		if (IsPlayer)
 		{
 			Array = PlayerCards;
+			parent = PlayerCardContainer;
 		}
 		else
 		{
 			Array = OpponentCards;
+			parent = OpponentCardContainer;
 		}
 		int Count = Array.Length;
 		if (Count > 0)          //Affect All
@@ -197,8 +219,16 @@ public partial class CombatScene : Control
 					await Array[i].AnimateValueChange(Array[Count - 1].SpecialFunctionValue);
 				}
 			}
+			else if (Array[Count - 1].specialFunction == CardData.SpecialFunction.Assimilation)
+			{
+				for (int i = 0; i < Count; i++)
+				{
+					Array[i].ChangeCardValue(Array[Count - 1].SpecialFunctionValue);
+					Array[i].IsAce = false;
+				}
+			}
 		}
-		await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
+		await ToSignal(GetTree().CreateTimer(0.05f), SceneTreeTimer.SignalName.Timeout);
 		if (Count > 1)         //AffectRight, left and neighbor
 		{
 			if (Array[Count - 2].specialFunction == CardData.SpecialFunction.AffectRight || Array[Count - 2].specialFunction == CardData.SpecialFunction.AffectNeighbor)
@@ -209,6 +239,63 @@ public partial class CombatScene : Control
 			{
 				await Array[Count - 2].AnimateValueChange(Array[Count - 1].SpecialFunctionValue);
 			}
+			if (Array[Count - 1].specialFunction == CardData.SpecialFunction.Delete)
+			{
+				int target, times = Array[Count - 1].SpecialFunctionValue;
+				while (times > 0 && Count > 1)
+				{
+					target = random.Next(0, Count - 1);
+					await Array[target].AnimateDeletion();
+					if (Array[target].specialFunction == CardData.SpecialFunction.Nirvana)
+					{
+						Array = Tool.AddElementToArray(Array, AddACard(new CardData(1), parent, Count + 1));
+					}
+					else if (Array[target].specialFunction == CardData.SpecialFunction.Deprave)
+					{
+						Array = Tool.AddElementToArray(Array, AddACard(AllCardDatas.self.cardDatas[0], parent, Count + 1));        //Add devil
+					}
+					else if (Array[target].specialFunction == CardData.SpecialFunction.Chain)
+					{
+						times++;
+					}
+					Array[target].QueueFree();
+					Array = Tool.DeleteElementFromArray(Array, Array[target]);
+					Count = Array.Length;
+					UpdateSep( 200, parent, Count);
+					times--;
+				}
+			}
+			await ToSignal(GetTree().CreateTimer(0.05f), SceneTreeTimer.SignalName.Timeout);
+		}
+		
+		for (int i = 0; i < Count - 1; i++)
+		{
+			if (Array[i].specialFunction == CardData.SpecialFunction.SelfChange)
+			{
+				await Array[i].AnimateValueChange(Array[i].SpecialFunctionValue);
+			}
+		}
+		await ToSignal(GetTree().CreateTimer(0.05f), SceneTreeTimer.SignalName.Timeout);
+		if (Array[Count - 1].specialFunction == CardData.SpecialFunction.summon)
+		{
+			Array = Tool.AddElementToArray(Array, AddACard(new CardData(-5), parent, Count + 1));
+			await ToSignal(GetTree().CreateTimer(0.05f), SceneTreeTimer.SignalName.Timeout);
+			Array = Tool.AddElementToArray(Array, AddACard(AllCardDatas.self.cardDatas[0], parent, Count + 2));        //Add devil
+		}
+		else if (Array[Count - 1].specialFunction == CardData.SpecialFunction.derive)
+		{
+			Array = Tool.AddElementToArray(Array, AddACard(new CardData(2), parent, Count + 1));
+			await ToSignal(GetTree().CreateTimer(0.05f), SceneTreeTimer.SignalName.Timeout);
+			Array = Tool.AddElementToArray(Array, AddACard(new CardData(3), parent, Count + 2));
+		}
+		Count = Array.Length;
+		if (IsPlayer)
+		{
+			PlayerCards = Array;
+		}
+		else
+		{
+			OpponentCards = Array;
 		}
 	}
 
@@ -216,6 +303,8 @@ public partial class CombatScene : Control
 	{
 		int TotalValue = 0;
 		int NumOfAces = 0, NumOfDevil = 0;
+		bool ExistAbsolute = false;
+		int UpperBound = 999 ;
 		foreach (Card card in cards)
 		{
 			TotalValue += card.CardValue;
@@ -227,6 +316,14 @@ public partial class CombatScene : Control
 			{
 				TotalValue += 10;
 				NumOfDevil++;
+			}
+			else if (card.specialFunction == CardData.SpecialFunction.Absolute)
+			{
+				ExistAbsolute = true;
+			}
+			else if (card.specialFunction == CardData.SpecialFunction.UpperBounds)
+			{
+				UpperBound = Math.Min(UpperBound, card.SpecialFunctionValue);
 			}
 		}
 		if (TotalValue > 21 && (NumOfAces > 0 || NumOfDevil > 0))
@@ -247,7 +344,17 @@ public partial class CombatScene : Control
 				NumOfDevil--;
 			}
 		}
-
+		if (TotalValue < 0)
+		{
+			if (ExistAbsolute)
+			{
+				TotalValue = TotalValue * -1;
+			}
+		}
+		if (TotalValue > UpperBound)
+		{
+			TotalValue = UpperBound;
+		}
 		return TotalValue;
 	}
 	public void updateUI()
@@ -267,16 +374,26 @@ public partial class CombatScene : Control
 	public Card AddACard(CardData cardData, HBoxContainer parent, int NumOfCard)    //NumOfCardinclude the card to be added
 	{
 		Card card = CardPrefab.Instantiate<Card>();
+		UpdateSep(200, parent, NumOfCard);
+
 		card.SetCardValue(cardData);
 		parent.AddChild(card);
 
+
+		return card;
+	}
+	public void UpdateSep(float CardSize, HBoxContainer parent, int NumOfCard)
+	{
 		if (NumOfCard >= 4)
 		{
-			float sep = (620 - (NumOfCard * card.Size.X)) / (NumOfCard - 1);
+			float sep = (620 - (NumOfCard * CardSize)) / (NumOfCard - 1);
 			sep = Mathf.FloorToInt(sep);
 			parent.AddThemeConstantOverride("separation", (int)sep);
 		}
-		return card;
+		else
+		{
+			parent.AddThemeConstantOverride("separation", 10);
+		}
 	}
 	public CardData[] AddBasicCardStorage(CardData[] storage)
 	{

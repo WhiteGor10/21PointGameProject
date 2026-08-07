@@ -61,8 +61,8 @@ alignment = 1
 
 [node name="OpponentCards" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=257916493]
 custom_minimum_size = Vector2(620, 250)
+custom_maximum_size = Vector2(620, 250)
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 10
 alignment = 1
@@ -99,8 +99,8 @@ alignment = 1
 
 [node name="PlayerCards" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=110176307]
 custom_minimum_size = Vector2(620, 250)
+custom_maximum_size = Vector2(620, 250)
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 10
 alignment = 1

@@ -203,3 +203,109 @@ CardDescription = "抽到此卡时，所有卡牌数字-3"
 IsRandomCardValue = true
 SpecialFunctionIndex = 4
 SpecialFunctionValue = -3
+
+[node name="Absolute" type="Node" parent="." unique_id=390747437]
+script = ExtResource("1_w6osq")
+CardName = "绝对值"
+CardDescription = "在场时，总和为负则*-1"
+IsRandomCardValue = true
+SpecialFunctionIndex = 5
+
+[node name="UpperBound18" type="Node" parent="." unique_id=1458338362]
+script = ExtResource("1_w6osq")
+CardName = "封顶"
+CardDescription = "在场时，总和不会超过18"
+IsRandomCardValue = true
+SpecialFunctionIndex = 6
+SpecialFunctionValue = 18
+
+[node name="UpperBound19" type="Node" parent="." unique_id=1764201292]
+script = ExtResource("1_w6osq")
+CardName = "封顶"
+CardDescription = "在场时，总和不会超过19"
+IsRandomCardValue = true
+SpecialFunctionIndex = 6
+SpecialFunctionValue = 19
+
+[node name="UpperBound20" type="Node" parent="." unique_id=1408845499]
+script = ExtResource("1_w6osq")
+CardName = "封顶"
+CardDescription = "在场时，总和不会超过20"
+IsRandomCardValue = true
+SpecialFunctionIndex = 6
+SpecialFunctionValue = 20
+
+[node name="Growth" type="Node" parent="." unique_id=1599281456]
+script = ExtResource("1_w6osq")
+CardName = "成长"
+CardDescription = "在场时，每一次发牌+1点"
+IsRandomCardValue = true
+SpecialFunctionIndex = 7
+SpecialFunctionValue = 1
+
+[node name="Backtrack" type="Node" parent="." unique_id=1485756786]
+script = ExtResource("1_w6osq")
+CardName = "回溯"
+CardDescription = "在场时，每一次发牌-1点"
+IsRandomCardValue = true
+SpecialFunctionIndex = 7
+SpecialFunctionValue = -1
+
+[node name="Assimilation" type="Node" parent="." unique_id=1886615371]
+script = ExtResource("1_w6osq")
+CardName = "同化"
+CardDescription = "抽到此卡时，所有卡牌变为1"
+CardValue = 1
+SpecialFunctionIndex = 8
+SpecialFunctionValue = 1
+
+[node name="Delete" type="Node" parent="." unique_id=1112778843]
+script = ExtResource("1_w6osq")
+CardName = "献祭"
+CardDescription = "抽到此卡时，随机删除1张场上己方卡牌"
+IsRandomCardValue = true
+SpecialFunctionIndex = 9
+SpecialFunctionValue = 1
+
+[node name="Delete2" type="Node" parent="." unique_id=52082558]
+script = ExtResource("1_w6osq")
+CardName = "献祭"
+CardDescription = "抽到此卡时，随机删除2张场上己方卡牌"
+IsRandomCardValue = true
+SpecialFunctionIndex = 9
+SpecialFunctionValue = 2
+
+[node name="Summon" type="Node" parent="." unique_id=296686419]
+script = ExtResource("1_w6osq")
+CardName = "召唤"
+CardDescription = "抽到此卡时，增加一张-5和恶魔"
+IsRandomCardValue = true
+SpecialFunctionIndex = 10
+
+[node name="Summon2" type="Node" parent="." unique_id=857681962]
+script = ExtResource("1_w6osq")
+CardName = "衍生"
+CardDescription = "抽到此卡时，增加一张2和3"
+IsRandomCardValue = true
+SpecialFunctionIndex = 11
+
+[node name="Nirvana" type="Node" parent="." unique_id=678149202]
+script = ExtResource("1_w6osq")
+CardName = "涅槃"
+CardDescription = "被删除时，增加一张A"
+IsRandomCardValue = true
+SpecialFunctionIndex = 12
+
+[node name="Deprave" type="Node" parent="." unique_id=1951350223]
+script = ExtResource("1_w6osq")
+CardName = "堕落"
+CardDescription = "被删除时，增加一张恶魔"
+IsRandomCardValue = true
+SpecialFunctionIndex = 13
+
+[node name="Chain" type="Node" parent="." unique_id=77078217]
+script = ExtResource("1_w6osq")
+CardName = "连坐"
+CardDescription = "被删除时，随机删除一张牌"
+IsRandomCardValue = true
+SpecialFunctionIndex = 14

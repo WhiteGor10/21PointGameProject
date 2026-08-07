@@ -20,7 +20,7 @@ public partial class Card : ColorRect
 	public CardData.SpecialFunction specialFunction;
 	public int SpecialFunctionValue;
 	public bool IsAce = false;
-	public int CardValue;			
+	public int CardValue;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -29,6 +29,13 @@ public partial class Card : ColorRect
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+	}
+	public async Task AnimateDeletion()
+	{
+		animationPlayer.Play("Delete");
+		double time = animationPlayer.GetSectionEndTime();
+		await ToSignal(GetTree().CreateTimer(time), SceneTreeTimer.SignalName.Timeout);
+
 	}
 	public async Task AnimateValueChange(int valueChange)
 	{
@@ -46,7 +53,7 @@ public partial class Card : ColorRect
 		double time = animationPlayer.GetSectionEndTime();
 		await ToSignal(GetTree().CreateTimer(time), SceneTreeTimer.SignalName.Timeout);
 
-		
+
 		CardValue += valueChange;
 		string valueString = CardValue.ToString();
 		ValueLabel1.Text = valueString;
@@ -92,6 +99,18 @@ public partial class Card : ColorRect
 		{
 			valueString = "?";
 		}
+		ValueLabel1.Text = valueString;
+		ValueLabel2.Text = valueString;
+	}
+	public void ChangeCardValue(int tovalue)
+	{
+		int value = tovalue;
+
+		string valueString;
+		CardValue = value;
+
+		valueString = value.ToString();
+
 		ValueLabel1.Text = valueString;
 		ValueLabel2.Text = valueString;
 	}
