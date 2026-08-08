@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://boyhp1olh5u4v"
+path="res://.godot/imported/FD6.mp3-4bb420c70aa7b7ee45e921fefd29b04f.mp3str"
+
+[deps]
+
+source_file="res://Audio/God of Gamblers/FD6.mp3"
+dest_files=["res://.godot/imported/FD6.mp3-4bb420c70aa7b7ee45e921fefd29b04f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

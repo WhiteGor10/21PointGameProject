@@ -25,7 +25,8 @@ public partial class CardData : Node
 		Devil,
 		AffectRight, AffectLeft, AffectNeighbor, AffectAll,
 		Absolute, UpperBounds, SelfChange, Assimilation,
-		Delete, summon, derive, Nirvana, Deprave, Chain
+		Delete, summon, derive, Nirvana, Deprave, Chain,
+		ConvertOnDraw, ConvertOnDelete
 
 
 	}

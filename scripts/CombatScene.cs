@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 public partial class CombatScene : Control
@@ -22,6 +24,8 @@ public partial class CombatScene : Control
 	public PanelContainer WinLosePanel;
 	[Export]
 	public Label WinLoseLabel;
+	[Export]
+	public Button SpeedButton;
 
 
 	public CardData[] OpponentCardStorge = new CardData[0];
@@ -30,7 +34,9 @@ public partial class CombatScene : Control
 	public Card[] PlayerCards;
 	private bool IsOpponentStop = false;
 	private int EndStatus = -1;         // -1: not end, 0 lose, 1 draw, 2 win
+	private int AnimationSpeed = 1;
 	private Random random = new Random();
+
 	public override void _Ready()
 	{
 		InjectCardStorage();
@@ -47,21 +53,26 @@ public partial class CombatScene : Control
 	}
 	public async void GameStart()
 	{
+		GetCardButton.Disabled = true;
+		StopButton.Disabled = true;
 		WinLosePanel.Visible = false;
 		OpponentCards = new Card[0];
 		PlayerCards = new Card[0];
 		await OpponentDrawCard();
 		await PlayerDrawCard();
 		updateUI();
+		GetCardButton.Disabled = false;
+		StopButton.Disabled = false;
 	}
 	public void InjectCardStorage()         //should be from some autoload script, but just test for now
 	{
 		CardData[] TempCardDatas = new CardData[0];       //for test
 		for (int i = 0; i < 220; i++)        //temp add 50 Devil, -ve card for test
 		{
-			TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[random.Next(36, 39)]);
+			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[random.Next(39, 43)]);
 			TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[32]);
-			TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[38]);
+			TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[random.Next(36, 39)]);
+			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[38]);
 			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, new CardData(-1 * random.Next(1,11)));
 		}
 
@@ -103,11 +114,13 @@ public partial class CombatScene : Control
 			{
 				ShowWinLosePanel("你赢了！");
 				EndStatus = 2;
+				SoundManager.self.RandomPlayLoseSound();
 			}
 			else if (playerValue < opponentValue)
 			{
 				ShowWinLosePanel("你输了！");
 				EndStatus = 0;
+				SoundManager.self.RandomPlaySound();
 			}
 			else
 			{
@@ -131,6 +144,7 @@ public partial class CombatScene : Control
 			ShowWinLosePanel("你输了！");
 			IsOpponentStop = true;
 			EndStatus = 0;
+			SoundManager.self.RandomPlaySound();
 		}
 
 		if (!IsOpponentStop)
@@ -148,7 +162,7 @@ public partial class CombatScene : Control
 		int AffordableDifference = 5;   //later may differ
 		int SelfTotalValue = TotalValue(OpponentCards);
 		if ((SelfTotalValue >= 21 - AffordableDifference && TotalValue(OpponentCards) > TotalValue(PlayerCards))
-			||  TotalValue(OpponentCards) == 21)
+			|| TotalValue(OpponentCards) == 21)
 		{
 			IsOpponentStop = true;
 		}
@@ -174,6 +188,7 @@ public partial class CombatScene : Control
 			ShowWinLosePanel("你没牌了，你输了！");
 			IsOpponentStop = true;
 			EndStatus = 0;
+			SoundManager.self.RandomPlaySound();
 		}
 		int PyId = random.Next(0, PlayerCardStorage.Length);
 		PlayerCards = Tool.AddElementToArray(PlayerCards, AddACard(PlayerCardStorage[PyId], PlayerCardContainer, PlayerCards.Length + 1));
@@ -189,6 +204,11 @@ public partial class CombatScene : Control
 			ShowWinLosePanel("他没牌了，你赢了！");
 			IsOpponentStop = true;
 			EndStatus = 2;
+			SoundManager.self.RandomPlayLoseSound();
+		}
+		else
+		{
+			SoundManager.self.RandomPlaySound();
 		}
 		int OpId = random.Next(0, OpponentCardStorge.Length);
 		OpponentCards = Tool.AddElementToArray(OpponentCards, AddACard(OpponentCardStorge[OpId], OpponentCardContainer, OpponentCards.Length + 1));
@@ -239,11 +259,12 @@ public partial class CombatScene : Control
 			{
 				await Array[Count - 2].AnimateValueChange(Array[Count - 1].SpecialFunctionValue);
 			}
-			if (Array[Count - 1].specialFunction == CardData.SpecialFunction.Delete)
+			if (Array[Count - 1].specialFunction == CardData.SpecialFunction.Delete)		//Will not delete itself
 			{
 				int target, times = Array[Count - 1].SpecialFunctionValue;
 				while (times > 0 && Count > 1)
 				{
+					int ConvertOnDeleteValue = -1;
 					target = random.Next(0, Count - 1);
 					await Array[target].AnimateDeletion();
 					if (Array[target].specialFunction == CardData.SpecialFunction.Nirvana)
@@ -258,16 +279,28 @@ public partial class CombatScene : Control
 					{
 						times++;
 					}
+					else if (Array[target].specialFunction == CardData.SpecialFunction.ConvertOnDelete)
+					{
+						ConvertOnDeleteValue = Array[target].SpecialFunctionValue;
+					}
 					Array[target].QueueFree();
 					Array = Tool.DeleteElementFromArray(Array, Array[target]);
 					Count = Array.Length;
-					UpdateSep( 200, parent, Count);
+					UpdateSep(200, parent, Count);
 					times--;
+					if (ConvertOnDeleteValue != -1)
+					{
+						await ConvertCard(Array, Count, ConvertOnDeleteValue);
+					}
 				}
+			}
+			if (Array[Count - 1].specialFunction == CardData.SpecialFunction.ConvertOnDraw)
+			{
+				await ConvertCard(Array, Count, Array[Count - 1].SpecialFunctionValue);
 			}
 			await ToSignal(GetTree().CreateTimer(0.05f), SceneTreeTimer.SignalName.Timeout);
 		}
-		
+
 		for (int i = 0; i < Count - 1; i++)
 		{
 			if (Array[i].specialFunction == CardData.SpecialFunction.SelfChange)
@@ -298,13 +331,31 @@ public partial class CombatScene : Control
 			OpponentCards = Array;
 		}
 	}
+	public async Task ConvertCard(Card[] Array, int Count, int tovalue)
+	{
+		int times = 1;
+		List<int> indices = Enumerable.Range(0, Count).ToList();		
+		//change order
+		for (int i = indices.Count - 1; i > 0; i--)
+		{
+			int j = random.Next(i + 1);
+			(indices[i], indices[j]) = (indices[j], indices[i]);
+		}
+		
+		int actualTimes = Math.Min(times, indices.Count);
+		for (int i = 0; i < actualTimes; i++)
+		{
+			int target = indices[i];
+			await Array[target].Convertion(tovalue);
+		}
+	}
 
 	public int TotalValue(Card[] cards)
 	{
 		int TotalValue = 0;
 		int NumOfAces = 0, NumOfDevil = 0;
 		bool ExistAbsolute = false;
-		int UpperBound = 999 ;
+		int UpperBound = 999;
 		foreach (Card card in cards)
 		{
 			TotalValue += card.CardValue;
@@ -377,6 +428,7 @@ public partial class CombatScene : Control
 		UpdateSep(200, parent, NumOfCard);
 
 		card.SetCardValue(cardData);
+		card.animationPlayer.SpeedScale = AnimationSpeed / 2f;
 		parent.AddChild(card);
 
 
@@ -406,5 +458,29 @@ public partial class CombatScene : Control
 			}
 		}
 		return storage;
+	}
+	public void OnPressChangeSpeed()
+	{
+		if (AnimationSpeed == 1)
+		{
+			AnimationSpeed = 2;
+		}
+		else if (AnimationSpeed == 2)
+		{
+			AnimationSpeed = 3;
+		}
+		else
+		{
+			AnimationSpeed = 1;
+		}
+		SpeedButton.Text = AnimationSpeed + ".0X";
+		foreach (Card card in PlayerCards)
+		{
+			card.animationPlayer.SpeedScale = AnimationSpeed;
+		}
+		foreach (Card card in OpponentCards)
+		{
+			card.animationPlayer.SpeedScale = AnimationSpeed;
+		}
 	}
 }

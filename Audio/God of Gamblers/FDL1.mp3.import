@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cbuyqysuxosyg"
+path="res://.godot/imported/FDL1.mp3-9152430204ede0031785cabfa0a89272.mp3str"
+
+[deps]
+
+source_file="res://Audio/God of Gamblers/FDL1.mp3"
+dest_files=["res://.godot/imported/FDL1.mp3-9152430204ede0031785cabfa0a89272.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

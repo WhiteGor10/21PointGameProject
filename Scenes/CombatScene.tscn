@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cqmn2bedtxlaa" path="res://scripts/CombatScene.cs" id="1_rx5ct"]
 [ext_resource type="PackedScene" uid="uid://hxx5yo1660e3" path="res://Prefabs/card.tscn" id="2_h7esm"]
+[ext_resource type="Texture2D" uid="uid://be15xcw0p3j5j" path="res://Images/FD.png" id="3_h7esm"]
 [ext_resource type="Script" uid="uid://dxdmtoe4tktn4" path="res://scripts/WinLosePanel.cs" id="3_yi6w0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gnrv8"]
@@ -10,7 +11,7 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_54yj7"]
 bg_color = Color(0.23921569, 0.98039216, 0.6627451, 1)
 
-[node name="CombatScene" type="Control" unique_id=691773524 node_paths=PackedStringArray("OpponentCardContainer", "PlayerCardContainer", "OpponentTotalValueLabel", "PlayerTotalValueLabel", "GetCardButton", "StopButton", "WinLosePanel", "WinLoseLabel")]
+[node name="CombatScene" type="Control" unique_id=691773524 node_paths=PackedStringArray("OpponentCardContainer", "PlayerCardContainer", "OpponentTotalValueLabel", "PlayerTotalValueLabel", "GetCardButton", "StopButton", "WinLosePanel", "WinLoseLabel", "SpeedButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,6 +28,7 @@ StopButton = NodePath("MarginContainer/VBoxContainer/Buttons/Stop")
 CardPrefab = ExtResource("2_h7esm")
 WinLosePanel = NodePath("WinLosePanel")
 WinLoseLabel = NodePath("WinLosePanel/PanelContainer/VBoxContainer/Label")
+SpeedButton = NodePath("MarginContainer/UIButtons/Speed")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1188240210]
 layout_mode = 1
@@ -139,7 +141,34 @@ custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 text = "发牌"
 
+[node name="UIButtons" type="MarginContainer" parent="MarginContainer" unique_id=591849973]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+
+[node name="Speed" type="Button" parent="MarginContainer/UIButtons" unique_id=1730692337]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "1.0X"
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer" unique_id=1561920969]
+custom_minimum_size = Vector2(450, 915)
+custom_maximum_size = Vector2(450, 915)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 100
+
+[node name="Character" type="TextureRect" parent="MarginContainer/MarginContainer" unique_id=1892029195]
+layout_mode = 2
+texture = ExtResource("3_h7esm")
+expand_mode = 3
+stretch_mode = 4
+
 [node name="WinLosePanel" type="PanelContainer" parent="." unique_id=1676944007 node_paths=PackedStringArray("MainContent", "HideButton")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -192,5 +221,6 @@ text = "继续"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/Stop" to="." method="OnPressStop"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/Continue" to="." method="OnPressGetCard"]
+[connection signal="pressed" from="MarginContainer/UIButtons/Speed" to="." method="OnPressChangeSpeed"]
 [connection signal="pressed" from="WinLosePanel/HideButtons/Button" to="WinLosePanel" method="HideOrShowMainContent"]
 [connection signal="pressed" from="WinLosePanel/PanelContainer/VBoxContainer/Button" to="." method="OnPressContinue"]

@@ -309,3 +309,35 @@ CardName = "连坐"
 CardDescription = "被删除时，随机删除一张牌"
 IsRandomCardValue = true
 SpecialFunctionIndex = 14
+
+[node name="ConvertOnDraw3" type="Node" parent="." unique_id=420445810]
+script = ExtResource("1_w6osq")
+CardName = "变化"
+CardDescription = "抽到此卡时，随机将一张牌变化为3"
+IsRandomCardValue = true
+SpecialFunctionIndex = 15
+SpecialFunctionValue = 3
+
+[node name="ConvertOnDraw7" type="Node" parent="." unique_id=1011493889]
+script = ExtResource("1_w6osq")
+CardName = "变化"
+CardDescription = "抽到此卡时，随机将一张牌变化为7"
+IsRandomCardValue = true
+SpecialFunctionIndex = 15
+SpecialFunctionValue = 7
+
+[node name="ConvertOnDelete3" type="Node" parent="." unique_id=342087499]
+script = ExtResource("1_w6osq")
+CardName = "变化"
+CardDescription = "被删除时，随机将一张牌变化为3"
+IsRandomCardValue = true
+SpecialFunctionIndex = 16
+SpecialFunctionValue = 3
+
+[node name="ConvertOnDelete7" type="Node" parent="." unique_id=232868195]
+script = ExtResource("1_w6osq")
+CardName = "变化"
+CardDescription = "被删除时，随机将一张牌变化为7"
+IsRandomCardValue = true
+SpecialFunctionIndex = 16
+SpecialFunctionValue = 7

@@ -30,10 +30,22 @@ public partial class Card : ColorRect
 	public override void _Process(double delta)
 	{
 	}
+	public async Task Convertion(int value)
+	{
+		animationPlayer.Play("Convert");
+		double time = animationPlayer.GetSectionEndTime() / animationPlayer.SpeedScale;
+		await ToSignal(GetTree().CreateTimer(time), SceneTreeTimer.SignalName.Timeout);
+
+		IsAce = false;
+		specialFunction = CardData.SpecialFunction.None;
+		SpecialIcon.Texture = null;
+		DescriptionLabel.Text = "";
+		ChangeCardValue(value);
+	}
 	public async Task AnimateDeletion()
 	{
 		animationPlayer.Play("Delete");
-		double time = animationPlayer.GetSectionEndTime();
+		double time = animationPlayer.GetSectionEndTime() / animationPlayer.SpeedScale;
 		await ToSignal(GetTree().CreateTimer(time), SceneTreeTimer.SignalName.Timeout);
 
 	}
@@ -50,7 +62,7 @@ public partial class Card : ColorRect
 		}
 
 		animationPlayer.Play("ValueChange");
-		double time = animationPlayer.GetSectionEndTime();
+		double time = animationPlayer.GetSectionEndTime() / animationPlayer.SpeedScale;
 		await ToSignal(GetTree().CreateTimer(time), SceneTreeTimer.SignalName.Timeout);
 
 
