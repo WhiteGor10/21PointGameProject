@@ -1,0 +1,134 @@
+[gd_scene format=3 uid="uid://3kpqw7cqhrx0"]
+
+[ext_resource type="Texture2D" uid="uid://c3gt0f1snpjo2" path="res://Images/BG.png" id="1_i60ue"]
+[ext_resource type="Script" uid="uid://bpjekx2gttbln" path="res://scripts/ExploreScene.cs" id="1_mbek5"]
+[ext_resource type="Texture2D" uid="uid://dij3oi5n8eevs" path="res://Images/BGHover.png" id="2_a3ppw"]
+
+[sub_resource type="Gradient" id="Gradient_a3ppw"]
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5qmi0"]
+gradient = SubResource("Gradient_a3ppw")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gnrv8"]
+bg_color = Color(0, 0, 0, 0.7058824)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="ExploreScene" type="Node2D" unique_id=1968606575 node_paths=PackedStringArray("MoneyLabel", "BetValueLabel", "BetSlider")]
+script = ExtResource("1_mbek5")
+MoneyLabel = NodePath("Money/MarginContainer/Value")
+BetValueLabel = NodePath("Bet/MarginContainer/Value")
+BetSlider = NodePath("Bet/MarginContainer/HSlider")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1926927678]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1680.0
+offset_bottom = 945.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer" unique_id=1575437267]
+layout_mode = 2
+texture = ExtResource("1_i60ue")
+
+[node name="Start" type="Button" parent="MarginContainer" unique_id=956601430]
+custom_minimum_size = Vector2(160, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "下一位"
+
+[node name="Cards" type="ColorRect" parent="." unique_id=602168994]
+clip_children = 1
+offset_left = 1208.0
+offset_top = 774.0
+offset_right = 1595.0602
+offset_bottom = 957.9796
+rotation = -0.34906584
+mouse_filter = 2
+
+[node name="ManageCards" type="TextureButton" parent="Cards" unique_id=1092559138]
+layout_mode = 0
+offset_left = -7.6625977
+offset_top = -90.051636
+offset_right = 487.3374
+offset_bottom = 100.948364
+rotation = 0.34906584
+texture_normal = SubResource("GradientTexture1D_5qmi0")
+texture_pressed = SubResource("GradientTexture1D_5qmi0")
+texture_hover = ExtResource("2_a3ppw")
+stretch_mode = 0
+
+[node name="Bet" type="PanelContainer" parent="." unique_id=1073484862]
+offset_left = 46.0
+offset_top = 661.0
+offset_right = 476.0
+offset_bottom = 911.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_gnrv8")
+
+[node name="MarginContainer" type="MarginContainer" parent="Bet" unique_id=1173846191]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="Bet/MarginContainer" unique_id=648562149]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "赌注"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="Bet/MarginContainer" unique_id=450605502]
+custom_minimum_size = Vector2(300, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+max_value = 10.0
+
+[node name="Value" type="Label" parent="Bet/MarginContainer" unique_id=720324549]
+custom_minimum_size = Vector2(385, 70)
+custom_maximum_size = Vector2(385, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "$1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Money" type="PanelContainer" parent="." unique_id=1784188121]
+offset_left = 898.0
+offset_top = 762.0
+offset_right = 1161.0
+offset_bottom = 898.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_gnrv8")
+
+[node name="MarginContainer" type="MarginContainer" parent="Money" unique_id=1453630932]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="Money/MarginContainer" unique_id=183832967]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "你有"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Money/MarginContainer" unique_id=303066259]
+layout_mode = 2
+size_flags_vertical = 8
+text = "$1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="MarginContainer/Start" to="." method="StartNextCombat"]
+[connection signal="pressed" from="Cards/ManageCards" to="." method="GotoCardStorage"]
+[connection signal="drag_ended" from="Bet/MarginContainer/HSlider" to="." method="DragEnded"]
+[connection signal="value_changed" from="Bet/MarginContainer/HSlider" to="." method="BetValueChanged"]

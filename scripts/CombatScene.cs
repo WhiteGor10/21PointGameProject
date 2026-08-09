@@ -41,7 +41,7 @@ public partial class CombatScene : Control
 	{
 		InjectCardStorage();
 		OpponentCardStorge = AddBasicCardStorage(OpponentCardStorge);
-		PlayerCardStorage = AddBasicCardStorage(PlayerCardStorage);
+		
 
 		GameStart();
 	}
@@ -66,12 +66,12 @@ public partial class CombatScene : Control
 	}
 	public void InjectCardStorage()         //should be from some autoload script, but just test for now
 	{
-		CardData[] TempCardDatas = new CardData[0];       //for test
+		CardData[] TempCardDatas = AutoLoad.self.PlayerCardStorage;
 		for (int i = 0; i < 220; i++)        //temp add 50 Devil, -ve card for test
 		{
 			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[random.Next(39, 43)]);
-			TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[32]);
-			TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[random.Next(36, 39)]);
+			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[32]);
+			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[random.Next(36, 39)]);
 			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[38]);
 			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, new CardData(-1 * random.Next(1,11)));
 		}
@@ -377,6 +377,7 @@ public partial class CombatScene : Control
 				UpperBound = Math.Min(UpperBound, card.SpecialFunctionValue);
 			}
 		}
+		GD.Print("Num Of ACe : " + NumOfAces);
 		if (TotalValue > 21 && (NumOfAces > 0 || NumOfDevil > 0))
 		{
 			while (TotalValue > 21 && NumOfAces > 0)
@@ -406,6 +407,7 @@ public partial class CombatScene : Control
 		{
 			TotalValue = UpperBound;
 		}
+		GD.Print("Total value : " + TotalValue);
 		return TotalValue;
 	}
 	public void updateUI()
@@ -420,7 +422,7 @@ public partial class CombatScene : Control
 	}
 	public void OnPressContinue()       //Exit the Scene
 	{
-		GetTree().ChangeSceneToFile("res://scenes/MainScene.tscn");
+		GetTree().ChangeSceneToFile(AutoLoad.self.ReturnScene);
 	}
 	public Card AddACard(CardData cardData, HBoxContainer parent, int NumOfCard)    //NumOfCardinclude the card to be added
 	{

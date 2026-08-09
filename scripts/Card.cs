@@ -21,6 +21,10 @@ public partial class Card : ColorRect
 	public int SpecialFunctionValue;
 	public bool IsAce = false;
 	public int CardValue;
+
+	public bool IsHover = false;
+	public bool CanHover = false;
+	public int index;			//only used in Storage
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -30,6 +34,23 @@ public partial class Card : ColorRect
 	public override void _Process(double delta)
 	{
 	}
+	public void OnMouseEntered()
+	{
+		IsHover = true;
+		if (CanHover)
+		{
+			Modulate = new Color(1, 1, 1, 0.7f);
+		}
+    }
+
+	public void OnMouseExited()
+	{
+		IsHover = false;
+		if (CanHover)
+		{
+			Modulate = new Color(1, 1, 1, 1);
+		}
+    }
 	public async Task Convertion(int value)
 	{
 		animationPlayer.Play("Convert");

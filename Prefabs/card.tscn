@@ -76,7 +76,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_mx1t6"]
 resource_name = "ValueChange"
-length = 0.39999999999999997
+length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -135,6 +135,7 @@ offset_right = 95.0
 offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Value" type="Label" parent="." unique_id=1068080487]
 layout_mode = 0
@@ -195,3 +196,6 @@ texture = ExtResource("1_xaftv")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=786126462]
 libraries/ = SubResource("AnimationLibrary_u6lgx")
 speed_scale = 0.5
+
+[connection signal="mouse_entered" from="." to="." method="OnMouseEntered"]
+[connection signal="mouse_exited" from="." to="." method="OnMouseExited"]

@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://dmlqqlkybl1gh"]
+
+[ext_resource type="Script" uid="uid://ounkjhtfobx" path="res://scripts/PlayerCardStorage.cs" id="1_8oxx6"]
+[ext_resource type="PackedScene" uid="uid://hxx5yo1660e3" path="res://Prefabs/card.tscn" id="2_12upg"]
+
+[node name="PlayerCardStorage" type="Control" unique_id=386733398 node_paths=PackedStringArray("Reminder", "CardsContainer")]
+custom_minimum_size = Vector2(1680, 945)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8oxx6")
+Reminder = NodePath("MarginContainer2/Remind Click")
+CardsContainer = NodePath("CardsContainer/ScrollContainer/HFlowContainer")
+CardPrefab = ExtResource("2_12upg")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1442637041]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer" unique_id=1303650042]
+layout_mode = 2
+color = Color(0.41960785, 0.4745098, 0.6313726, 1)
+
+[node name="CardsContainer" type="MarginContainer" parent="." unique_id=928365718]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 100
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CardsContainer" unique_id=1485659706]
+layout_mode = 2
+draw_focus_border = true
+
+[node name="HFlowContainer" type="HFlowContainer" parent="CardsContainer/ScrollContainer" unique_id=876574615]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 50
+
+[node name="MarginContainer2" type="MarginContainer" parent="." unique_id=2145380959]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="Back" type="Button" parent="MarginContainer2" unique_id=1660423975]
+custom_minimum_size = Vector2(120, 80)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "返回"
+
+[node name="Remind Click" type="Label" parent="MarginContainer2" unique_id=1419718750]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "点击想选择的卡牌"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="MarginContainer2/Back" to="." method="OnReturn"]

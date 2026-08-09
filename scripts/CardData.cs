@@ -52,10 +52,11 @@ public partial class CardData : Node
 		CardName = cardData.CardName;
 		CardDescription = cardData.CardDescription;
 		CardTexture = cardData.CardTexture;
-		CardValue = cardData.CardValue;		
+		CardValue = cardData.CardValue;
 		IsRandomCardValue = false;
-		SpecialFunctionIndex = cardData.SpecialFunctionIndex;  
- 		SpecialFunctionValue = cardData.SpecialFunctionValue;
+		SpecialFunctionIndex = cardData.SpecialFunctionIndex;
+		SpecialFunctionValue = cardData.SpecialFunctionValue;
+		IsAce = cardData.IsAce;
 	}
 	public CardData()
 	{
