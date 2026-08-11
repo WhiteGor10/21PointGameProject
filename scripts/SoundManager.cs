@@ -13,9 +13,6 @@ public partial class SoundManager : Node
 	public override void _Ready()
 	{
 		self = this;
-		//Test only
-		PlayList = ConstantSaver.AudioFD;
-		LoseList = ConstantSaver.AudioFDL;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

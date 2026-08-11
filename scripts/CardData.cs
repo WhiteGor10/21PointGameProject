@@ -47,13 +47,19 @@ public partial class CardData : Node
 		this.SpecialFunctionIndex = specialFunction;
 		this.SpecialFunctionValue = specialFunctionValue;
 	}
-	public CardData(CardData cardData)      //Copy Consturtor
+	public CardData(CardData cardData, bool Isfollowrandom)      //Copy Consturtor
 	{
 		CardName = cardData.CardName;
 		CardDescription = cardData.CardDescription;
 		CardTexture = cardData.CardTexture;
 		CardValue = cardData.CardValue;
+		
 		IsRandomCardValue = false;
+		if (Isfollowrandom)
+		{
+			IsRandomCardValue = cardData.IsRandomCardValue;
+		}
+
 		SpecialFunctionIndex = cardData.SpecialFunctionIndex;
 		SpecialFunctionValue = cardData.SpecialFunctionValue;
 		IsAce = cardData.IsAce;

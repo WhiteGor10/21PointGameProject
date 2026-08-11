@@ -24,7 +24,12 @@ public partial class ExploreScene : Node2D
 	public void UpdateUI()
 	{
 		BetSlider.Value = (AutoLoad.self.BetValue - AutoLoad.self.BetMaxMin.X) / (AutoLoad.self.BetMaxMin.Y - AutoLoad.self.BetMaxMin.X) * 10;
-		BetValueLabel.Text = "$" + BetSlider.Value;
+
+		if (AutoLoad.self.BetValue <= 0)
+		{
+			AutoLoad.self.BetValue = 1;
+		}
+		BetValueLabel.Text = "$" + AutoLoad.self.BetValue;
 		MoneyLabel.Text = "$" + AutoLoad.self.Money;
 	}
 	public void BetValueChanged(float value)
@@ -57,6 +62,11 @@ public partial class ExploreScene : Node2D
 	}
 	public void StartNextCombat()
 	{
+		if (AutoLoad.self.BetValue <= 0)
+		{
+			AutoLoad.self.BetValue = 1;
+		}
+		AutoLoad.self.Money -= AutoLoad.self.BetValue;
 		AutoLoad.self.ReturnScene = GetTree().CurrentScene.SceneFilePath;
 		GetTree().ChangeSceneToFile("res://scenes/CombatScene.tscn");
 	}

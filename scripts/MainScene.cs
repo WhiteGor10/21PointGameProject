@@ -16,6 +16,7 @@ public partial class MainScene : Node2D
 	public void DebugStart()
 	{
 		GetTree().ChangeSceneToFile("res://scenes/ExploreScene.tscn");
+		AutoLoad.self.GetRandomEnemy();
 	}
 
 }

@@ -21,11 +21,13 @@ public partial class CombatScene : Control
 	[Export]
 	public PackedScene CardPrefab;
 	[Export]
-	public PanelContainer WinLosePanel;
+	public WinLosePanel WinLosePanel;
 	[Export]
 	public Label WinLoseLabel;
 	[Export]
 	public Button SpeedButton;
+	[Export]
+	public TextureRect OpponentTexture;
 
 
 	public CardData[] OpponentCardStorge = new CardData[0];
@@ -40,8 +42,8 @@ public partial class CombatScene : Control
 	public override void _Ready()
 	{
 		InjectCardStorage();
-		OpponentCardStorge = AddBasicCardStorage(OpponentCardStorge);
-		
+		InjectEnemyCardStorage();
+		ImportOpponentDetails();
 
 		GameStart();
 	}
@@ -53,6 +55,7 @@ public partial class CombatScene : Control
 	}
 	public async void GameStart()
 	{
+		LoadAnimationSpeed();
 		GetCardButton.Disabled = true;
 		StopButton.Disabled = true;
 		WinLosePanel.Visible = false;
@@ -64,21 +67,71 @@ public partial class CombatScene : Control
 		GetCardButton.Disabled = false;
 		StopButton.Disabled = false;
 	}
-	public void InjectCardStorage()         //should be from some autoload script, but just test for now
+	public void LoadAnimationSpeed()
 	{
-		CardData[] TempCardDatas = AutoLoad.self.PlayerCardStorage;
-		for (int i = 0; i < 220; i++)        //temp add 50 Devil, -ve card for test
+		AnimationSpeed = AutoLoad.self.SavedSpeed - 1;
+		
+		OnPressChangeSpeed();
+	}
+	public void ImportOpponentDetails()
+	{
+		OpponentTexture.Texture = AllEnemy.self.OpponentTextures[AutoLoad.self.enemy.characterindex];
+		switch (AutoLoad.self.enemy.characterindex)
 		{
-			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[random.Next(39, 43)]);
-			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[32]);
-			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[random.Next(36, 39)]);
-			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[38]);
-			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, new CardData(-1 * random.Next(1,11)));
+			case 0:
+				SoundManager.self.PlayList = ConstantSaver.AudioFD;
+				SoundManager.self.LoseList = ConstantSaver.AudioFDL;
+				break;
+			case 1:
+				SoundManager.self.PlayList = ConstantSaver.AudioHnery;
+				SoundManager.self.LoseList = ConstantSaver.AudioHneryL;
+				break;
+			case 2:
+				SoundManager.self.PlayList = ConstantSaver.AudioJonSnow;
+				SoundManager.self.LoseList = ConstantSaver.AudioJonSnowL;
+				break;
+			case 3:
+				SoundManager.self.PlayList = ConstantSaver.AudioVertin;
+				SoundManager.self.LoseList = ConstantSaver.AudioVertinL;
+				break;
+			case 4:
+				SoundManager.self.PlayList = ConstantSaver.AudioDoctorStrange;
+				SoundManager.self.LoseList = ConstantSaver.AudioDoctorStrangeL;
+				break;
+			default:
+				SoundManager.self.PlayList = ConstantSaver.AudioFD;
+				SoundManager.self.LoseList = ConstantSaver.AudioFDL;
+				break;
 		}
+	}
+	public void InjectEnemyCardStorage()
+	{
+		CardData[] TempCardDatas = AutoLoad.self.enemy.GetCardDatas();
 
 		foreach (CardData cardData in TempCardDatas)
 		{
-			CardData CopyCard = new CardData(cardData);
+			CardData CopyCard = new CardData(cardData, false);
+			if (cardData.SpecialFunctionIndex != CardData.SpecialFunction.None)
+			{
+				if (cardData.IsRandomCardValue)
+				{
+					CopyCard.CardValue = random.Next(1, 11);
+					if (CopyCard.CardValue == 1)
+					{
+						CopyCard.IsAce = true;
+					}
+				}
+			}
+			OpponentCardStorge = Tool.AddElementToArray(OpponentCardStorge, CopyCard);
+		}
+	}
+	public void InjectCardStorage()         //should be from some autoload script, but just test for now
+	{
+		CardData[] TempCardDatas = AutoLoad.self.PlayerCardStorage;
+
+		foreach (CardData cardData in TempCardDatas)
+		{
+			CardData CopyCard = new CardData(cardData, false);
 			if (cardData.SpecialFunctionIndex != CardData.SpecialFunction.None)
 			{
 				if (cardData.IsRandomCardValue)
@@ -112,20 +165,22 @@ public partial class CombatScene : Control
 			int opponentValue = TotalValue(OpponentCards);
 			if (playerValue > opponentValue)
 			{
-				ShowWinLosePanel("你赢了！");
 				EndStatus = 2;
+				ShowWinLosePanel("你赢了！");
+
 				SoundManager.self.RandomPlayLoseSound();
 			}
 			else if (playerValue < opponentValue)
 			{
-				ShowWinLosePanel("你输了！");
 				EndStatus = 0;
+				ShowWinLosePanel("你输了！");
 				SoundManager.self.RandomPlaySound();
 			}
 			else
 			{
-				ShowWinLosePanel("平局！");
 				EndStatus = 1;
+				ShowWinLosePanel("平局！");
+
 			}
 		}
 	}
@@ -136,14 +191,16 @@ public partial class CombatScene : Control
 		StopButton.Disabled = true;
 
 		await PlayerDrawCard();
+		updateUI();
 
 		if (TotalValue(PlayerCards) > 21)
 		{
 			updateUI();
 			await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+			EndStatus = 0;
 			ShowWinLosePanel("你输了！");
 			IsOpponentStop = true;
-			EndStatus = 0;
+
 			SoundManager.self.RandomPlaySound();
 		}
 
@@ -173,9 +230,10 @@ public partial class CombatScene : Control
 			{
 				updateUI();
 				await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+				EndStatus = 2;
 				ShowWinLosePanel("你赢了！");
 				IsOpponentStop = true;
-				EndStatus = 2;
+				
 			}
 		}
 	}
@@ -185,9 +243,10 @@ public partial class CombatScene : Control
 		{
 			updateUI();
 			await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+			EndStatus = 0;
 			ShowWinLosePanel("你没牌了，你输了！");
 			IsOpponentStop = true;
-			EndStatus = 0;
+
 			SoundManager.self.RandomPlaySound();
 		}
 		int PyId = random.Next(0, PlayerCardStorage.Length);
@@ -201,9 +260,10 @@ public partial class CombatScene : Control
 		{
 			updateUI();
 			await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+			EndStatus = 2;
 			ShowWinLosePanel("他没牌了，你赢了！");
 			IsOpponentStop = true;
-			EndStatus = 2;
+
 			SoundManager.self.RandomPlayLoseSound();
 		}
 		else
@@ -419,9 +479,35 @@ public partial class CombatScene : Control
 	{
 		WinLosePanel.Visible = true;
 		WinLoseLabel.Text = result;
+		if (EndStatus == 0)         //Lose
+		{
+			WinLosePanel.Balance.Text = "-$" + AutoLoad.self.BetValue;
+		}
+		else if (EndStatus == 1)         //Draw
+		{
+			WinLosePanel.Balance.Text = "$0";
+		}
+		else
+		{
+			WinLosePanel.Balance.Text = "+$" + AutoLoad.self.BetValue;
+		}
 	}
 	public void OnPressContinue()       //Exit the Scene
 	{
+		if (EndStatus == 0)         //Lose
+		{
+			//Nothing
+		}
+		else if (EndStatus == 1)         //Draw
+		{
+			AutoLoad.self.Money += AutoLoad.self.BetValue;
+		}
+		else
+		{
+			AutoLoad.self.Money += AutoLoad.self.BetValue * 2;
+		}
+		AutoLoad.self.GetRandomEnemy();
+		AutoLoad.self.BetValue = 0;
 		GetTree().ChangeSceneToFile(AutoLoad.self.ReturnScene);
 	}
 	public Card AddACard(CardData cardData, HBoxContainer parent, int NumOfCard)    //NumOfCardinclude the card to be added
@@ -475,7 +561,12 @@ public partial class CombatScene : Control
 		{
 			AnimationSpeed = 1;
 		}
+		AutoLoad.self.SavedSpeed = AnimationSpeed;
 		SpeedButton.Text = AnimationSpeed + ".0X";
+		if (PlayerCards == null || OpponentCards == null)
+		{
+			return;
+		}
 		foreach (Card card in PlayerCards)
 		{
 			card.animationPlayer.SpeedScale = AnimationSpeed;

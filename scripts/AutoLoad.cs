@@ -3,14 +3,19 @@ using System;
 
 public partial class AutoLoad : Node
 {
+	public Enemy enemy;
 
 	public int BetValue;
 	public Vector2 BetMaxMin;
 	public bool CanCardHover;       //For PlayerStorage only
+
+	public int SavedSpeed = 1;
 	public string ReturnScene;
 
 	public CardData[] PlayerCardStorage;
 	public int Money;
+
+	public int diffculty;			//1-5
 
 	public int SelectedCardID;			//ID in PlayerCardStorage
 	public static AutoLoad self;
@@ -18,9 +23,10 @@ public partial class AutoLoad : Node
 	public override void _Ready()
 	{
 		self = this;
+		diffculty = 1;
 		//test
 		DefaultTheCards();
-		BetMaxMin = new Vector2(0, 10);
+		
 		Money = 5;
 	}
 
@@ -28,10 +34,28 @@ public partial class AutoLoad : Node
 	public override void _Process(double delta)
 	{
 	}
+	public void GetRandomEnemy()
+	{
+		enemy = AllEnemy.self.GetRandomEnemy(diffculty);
+		SetEnemyData();
+	}
+	public void SetEnemyData()      //After having enemy
+	{
+		BetMaxMin = enemy.BetMaxMin;
+	}
 	public void DefaultTheCards()
 	{
 		PlayerCardStorage = new CardData[0];
 		PlayerCardStorage = AddBasicCardStorage(PlayerCardStorage);
+
+		for (int i = 0; i < 220; i++)        //temp add 50 Devil, -ve card for test
+		{
+			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[random.Next(39, 43)]);
+			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[32]);
+			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[random.Next(36, 39)]);
+			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[38]);
+			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, new CardData(-1 * random.Next(1,11)));
+		}
 	}
 
 	public CardData[] AddBasicCardStorage(CardData[] storage)

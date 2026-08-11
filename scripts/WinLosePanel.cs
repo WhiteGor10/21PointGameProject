@@ -7,6 +7,8 @@ public partial class WinLosePanel : PanelContainer
 	public PanelContainer MainContent;
 	[Export]
 	public Button HideButton;
+	[Export]
+	public Label Balance;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
