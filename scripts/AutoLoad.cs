@@ -15,19 +15,15 @@ public partial class AutoLoad : Node
 	public CardData[] PlayerCardStorage;
 	public int Money;
 
-	public int diffculty;			//1-5
+	public int diffculty;           //1-5
 
-	public int SelectedCardID;			//ID in PlayerCardStorage
+	public int SelectedCardID = -1;         //ID in PlayerCardStorage
 	public static AutoLoad self;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		self = this;
-		diffculty = 1;
-		//test
-		DefaultTheCards();
-		
-		Money = 5;
+
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -70,4 +66,56 @@ public partial class AutoLoad : Node
 		}
 		return storage;
 	}
+	public void SortAccordingtoCardValue()
+	{
+		QuickSort(PlayerCardStorage);
+	}
+	public void QuickSort(CardData[] cards)
+    {
+        if (cards == null || cards.Length <= 1)
+            return;
+            
+        QuickSort(cards, 0, cards.Length - 1);
+    }
+    
+    private void QuickSort(CardData[] cards, int low, int high)
+    {
+        if (low < high)
+        {
+            // Partition the array and get the pivot index
+            int pivotIndex = Partition(cards, low, high);
+            
+            // Recursively sort elements before and after partition
+            QuickSort(cards, low, pivotIndex - 1);
+            QuickSort(cards, pivotIndex + 1, high);
+        }
+    }
+    
+    private int Partition(CardData[] cards, int low, int high)
+    {
+        // Choose the rightmost element as pivot
+        int pivotValue = cards[high].CardValue;
+        int i = low - 1; // Index of smaller element
+        
+        for (int j = low; j < high; j++)
+        {
+            // If current element is less than or equal to pivot
+            if (cards[j].CardValue <= pivotValue)
+            {
+                i++;
+                Swap(cards, i, j);
+            }
+        }
+        
+        // Place pivot in its correct position
+        Swap(cards, i + 1, high);
+        return i + 1;
+    }
+    
+    private void Swap(CardData[] cards, int i, int j)
+    {
+        CardData temp = cards[i];
+        cards[i] = cards[j];
+        cards[j] = temp;
+    }
 }

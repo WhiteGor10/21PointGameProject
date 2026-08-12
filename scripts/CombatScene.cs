@@ -98,6 +98,18 @@ public partial class CombatScene : Control
 				SoundManager.self.PlayList = ConstantSaver.AudioDoctorStrange;
 				SoundManager.self.LoseList = ConstantSaver.AudioDoctorStrangeL;
 				break;
+			case 5:
+				SoundManager.self.PlayList = ConstantSaver.Audio37;
+				SoundManager.self.LoseList = ConstantSaver.Audio37L;
+				break;
+			case 6:
+				SoundManager.self.PlayList = ConstantSaver.AudioMatilda;
+				SoundManager.self.LoseList = ConstantSaver.AudioMatildaL;
+				break;
+			case 7:
+				SoundManager.self.PlayList = ConstantSaver.AudioES;
+				SoundManager.self.LoseList = ConstantSaver.AudioESL;
+				break;
 			default:
 				SoundManager.self.PlayList = ConstantSaver.AudioFD;
 				SoundManager.self.LoseList = ConstantSaver.AudioFDL;
@@ -508,7 +520,7 @@ public partial class CombatScene : Control
 		}
 		AutoLoad.self.GetRandomEnemy();
 		AutoLoad.self.BetValue = 0;
-		GetTree().ChangeSceneToFile(AutoLoad.self.ReturnScene);
+		GetTree().ChangeSceneToFile("res://scenes/BuyCard.tscn");
 	}
 	public Card AddACard(CardData cardData, HBoxContainer parent, int NumOfCard)    //NumOfCardinclude the card to be added
 	{

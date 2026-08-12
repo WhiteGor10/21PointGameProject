@@ -17,8 +17,9 @@ corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
-[node name="ExploreScene" type="Node2D" unique_id=1968606575 node_paths=PackedStringArray("MoneyLabel", "BetValueLabel", "BetSlider")]
+[node name="ExploreScene" type="Node2D" unique_id=1968606575 node_paths=PackedStringArray("Opponent", "MoneyLabel", "BetValueLabel", "BetSlider")]
 script = ExtResource("1_mbek5")
+Opponent = NodePath("MarginContainer/MarginContainer/Character")
 MoneyLabel = NodePath("Money/MarginContainer/Value")
 BetValueLabel = NodePath("Bet/MarginContainer/Value")
 BetSlider = NodePath("Bet/MarginContainer/HSlider")
@@ -41,7 +42,20 @@ custom_minimum_size = Vector2(160, 80)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "下一位"
+text = "挑战"
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer" unique_id=812645403]
+custom_maximum_size = Vector2(450, 915)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="Character" type="TextureRect" parent="MarginContainer/MarginContainer" unique_id=607348041]
+custom_minimum_size = Vector2(280, 420)
+custom_maximum_size = Vector2(280, -1)
+layout_mode = 2
+expand_mode = 5
+stretch_mode = 4
 
 [node name="Cards" type="ColorRect" parent="." unique_id=602168994]
 clip_children = 1

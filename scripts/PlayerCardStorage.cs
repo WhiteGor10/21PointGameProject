@@ -4,6 +4,8 @@ using System;
 public partial class PlayerCardStorage : Control
 {
 	[Export]
+	public Button SortButton;
+	[Export]
 	public Label Reminder;
 	[Export]
 	public HFlowContainer CardsContainer;
@@ -16,16 +18,32 @@ public partial class PlayerCardStorage : Control
 	{
 		GenAllPlayerCards();
 		Reminder.Visible = false;
+		SortButton.Visible = true;
 		if (AutoLoad.self.CanCardHover)
 		{
 			Reminder.Visible = true;
+			SortButton.Visible = false;
 		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		ManageConfirm();
+		if (AutoLoad.self.CanCardHover)
+		{
+			ManageConfirm();
+		}
+
+	}
+	public void Sort()
+	{
+		AutoLoad.self.SortAccordingtoCardValue();
+		foreach (Card card in cards)
+		{
+			cards = Tool.DeleteElementFromArray(cards, card);
+			card.QueueFree();
+		}
+		GenAllPlayerCards();
 	}
 	public void GenAllPlayerCards()
 	{
@@ -48,6 +66,11 @@ public partial class PlayerCardStorage : Control
 	
 	public void OnReturn()
 	{
+		if (AutoLoad.self.CanCardHover)
+		{
+			QueueFree();
+			return;
+		}
 		AutoLoad.self.SelectedCardID = -1;
 		GetTree().ChangeSceneToFile(AutoLoad.self.ReturnScene);
 	}
@@ -62,7 +85,7 @@ public partial class PlayerCardStorage : Control
 			if (card.IsHover)
 			{
 				AutoLoad.self.SelectedCardID = card.index;
-				GetTree().ChangeSceneToFile(AutoLoad.self.ReturnScene);
+				QueueFree();
 				return;
 			}
 		}

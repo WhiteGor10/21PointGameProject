@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://cky62n1grtyea"]
+
+[ext_resource type="Script" uid="uid://c7750b3ajwmbs" path="res://scripts/FailScene.cs" id="1_ousot"]
+[ext_resource type="VideoStream" uid="uid://cv03pm2g4cf3l" path="res://Video/FailEnd.ogv" id="1_x6pln"]
+
+[node name="FailScene" type="Control" unique_id=861273707]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ousot")
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=126224346]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -840.0
+offset_top = -472.5
+offset_right = 440.0
+offset_bottom = 247.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.32, 1.32)
+stream = ExtResource("1_x6pln")
+autoplay = true
+
+[connection signal="finished" from="VideoStreamPlayer" to="." method="OnFinish"]

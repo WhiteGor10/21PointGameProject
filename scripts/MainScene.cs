@@ -16,6 +16,9 @@ public partial class MainScene : Node2D
 	public void DebugStart()
 	{
 		GetTree().ChangeSceneToFile("res://scenes/ExploreScene.tscn");
+		AutoLoad.self.diffculty = 1;
+		AutoLoad.self.DefaultTheCards();
+		AutoLoad.self.Money = 5;
 		AutoLoad.self.GetRandomEnemy();
 	}
 

@@ -4,6 +4,8 @@ using System;
 public partial class ExploreScene : Node2D
 {
 	[Export]
+	public TextureRect Opponent;
+	[Export]
 	public Label MoneyLabel;
 	[Export]
 	public Label BetValueLabel;
@@ -13,6 +15,10 @@ public partial class ExploreScene : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		if (AutoLoad.self.Money <= 0)
+		{
+			GetTree().ChangeSceneToFile("res://scenes/FailScene.tscn");
+		}
 		UpdateUI();
 	}
 
@@ -31,6 +37,7 @@ public partial class ExploreScene : Node2D
 		}
 		BetValueLabel.Text = "$" + AutoLoad.self.BetValue;
 		MoneyLabel.Text = "$" + AutoLoad.self.Money;
+		Opponent.Texture = AllEnemy.self.OpponentTextures[AutoLoad.self.enemy.characterindex];
 	}
 	public void BetValueChanged(float value)
 	{

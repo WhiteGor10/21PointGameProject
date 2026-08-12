@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ounkjhtfobx" path="res://scripts/PlayerCardStorage.cs" id="1_8oxx6"]
 [ext_resource type="PackedScene" uid="uid://hxx5yo1660e3" path="res://Prefabs/card.tscn" id="2_12upg"]
 
-[node name="PlayerCardStorage" type="Control" unique_id=386733398 node_paths=PackedStringArray("Reminder", "CardsContainer")]
+[node name="PlayerCardStorage" type="Control" unique_id=386733398 node_paths=PackedStringArray("SortButton", "Reminder", "CardsContainer")]
 custom_minimum_size = Vector2(1680, 945)
 layout_mode = 3
 anchors_preset = 15
@@ -12,6 +12,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8oxx6")
+SortButton = NodePath("MarginContainer2/Sort")
 Reminder = NodePath("MarginContainer2/Remind Click")
 CardsContainer = NodePath("CardsContainer/ScrollContainer/HFlowContainer")
 CardPrefab = ExtResource("2_12upg")
@@ -70,6 +71,13 @@ size_flags_horizontal = 0
 size_flags_vertical = 8
 text = "返回"
 
+[node name="Sort" type="Button" parent="MarginContainer2" unique_id=1173342225]
+custom_minimum_size = Vector2(120, 80)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "排序"
+
 [node name="Remind Click" type="Label" parent="MarginContainer2" unique_id=1419718750]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -79,3 +87,4 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [connection signal="pressed" from="MarginContainer2/Back" to="." method="OnReturn"]
+[connection signal="pressed" from="MarginContainer2/Sort" to="." method="Sort"]

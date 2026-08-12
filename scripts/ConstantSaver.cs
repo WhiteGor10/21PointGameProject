@@ -44,4 +44,29 @@ public partial class ConstantSaver : Node
 	public static string[] AudioDoctorStrangeL = {
 		"res://Audio/DoctorStrange/DSL.mp3",
 	};
+	public static string[] Audio37 = {
+		"res://Audio/37/371.mp3","res://Audio/37/372.mp3",
+		"res://Audio/37/373.mp3","res://Audio/37/374.mp3",
+		"res://Audio/37/375.mp3","res://Audio/37/376.mp3",
+	};
+	public static string[] Audio37L = {
+		"res://Audio/37/37L1.mp3","res://Audio/37/37L2.mp3",
+	};
+	public static string[] AudioMatilda = {
+		"res://Audio/Matilda/Matilda1.mp3","res://Audio/Matilda/Matilda2.mp3",
+		"res://Audio/Matilda/Matilda3.mp3","res://Audio/Matilda/Matilda4.mp3",
+		"res://Audio/Matilda/Matilda5.mp3","res://Audio/Matilda/Matilda6.mp3",
+		"res://Audio/Matilda/Matilda7.mp3","res://Audio/Matilda/Matilda8.mp3",
+	};
+	public static string[] AudioMatildaL = {
+		"res://Audio/Matilda/MatildaL.mp3"
+	};
+	public static string[] AudioES = {
+		"res://Audio/ES/ES1.mp3","res://Audio/ES/ES2.mp3",
+		"res://Audio/ES/ES3.mp3","res://Audio/ES/ES4.mp3",
+		"res://Audio/ES/ES5.mp3","res://Audio/ES/ES6.mp3"
+	};
+	public static string[] AudioESL = {
+		"res://Audio/ES/ESL.mp3"
+	};
 }

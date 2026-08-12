@@ -1,0 +1,162 @@
+[gd_scene format=3 uid="uid://cb8h2jelffswh"]
+
+[ext_resource type="Script" uid="uid://cqbhr85kit61h" path="res://scripts/BuyCard.cs" id="1_kq5t5"]
+[ext_resource type="PackedScene" uid="uid://hxx5yo1660e3" path="res://Prefabs/card.tscn" id="2_5174b"]
+[ext_resource type="PackedScene" uid="uid://dmlqqlkybl1gh" path="res://Prefabs/PlayerCardStorage.tscn" id="3_cnmrr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kq5t5"]
+bg_color = Color(0, 0, 0, 0.7058824)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="BuyCard" type="Control" unique_id=1036426592 node_paths=PackedStringArray("RefreshButton", "MoneyLabel", "Prices", "CardParent")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kq5t5")
+RefreshButton = NodePath("Refresh")
+MoneyLabel = NodePath("Money/MarginContainer/Value")
+Prices = [NodePath("MarginContainer/VBoxContainer/HBoxContainer2/Label"), NodePath("MarginContainer/VBoxContainer/HBoxContainer2/Label2"), NodePath("MarginContainer/VBoxContainer/HBoxContainer2/Label3")]
+CardParent = NodePath("MarginContainer/VBoxContainer/HBoxContainer")
+CardPrefab = ExtResource("2_5174b")
+CardStoragePrefab = ExtResource("3_cnmrr")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1248812985]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.54901963, 1, 1, 1)
+
+[node name="Reminder" type="Label" parent="." unique_id=1566380763]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -216.0
+offset_top = 32.0
+offset_right = 216.0
+offset_bottom = 99.0
+grow_horizontal = 2
+text = "点击你要购买的卡牌"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Money" type="PanelContainer" parent="." unique_id=411215333]
+layout_mode = 0
+offset_left = 31.0
+offset_top = 24.0
+offset_right = 294.0
+offset_bottom = 160.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_kq5t5")
+
+[node name="MarginContainer" type="MarginContainer" parent="Money" unique_id=746307515]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="Money/MarginContainer" unique_id=899017910]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "你有"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Value" type="Label" parent="Money/MarginContainer" unique_id=1218723773]
+layout_mode = 2
+size_flags_vertical = 8
+text = "$1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1389010153]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -240.833
+offset_right = -560.0
+offset_bottom = 9.166992
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.5, 1.5)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=233445073]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1213074592]
+layout_mode = 2
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1496034729]
+layout_mode = 2
+theme_override_constants/separation = 100
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=2138270386]
+custom_minimum_size = Vector2(192, 70)
+custom_maximum_size = Vector2(192, 70)
+layout_mode = 2
+text = "$100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=564905768]
+custom_minimum_size = Vector2(192, 70)
+custom_maximum_size = Vector2(192, 70)
+layout_mode = 2
+text = "$100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=401101833]
+custom_minimum_size = Vector2(192, 70)
+custom_maximum_size = Vector2(192, 70)
+layout_mode = 2
+text = "$100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Done" type="Button" parent="." unique_id=1920577003]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -195.0
+offset_right = 60.0
+offset_bottom = -115.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "完成"
+
+[node name="Refresh" type="Button" parent="." unique_id=1608539362]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -177.0
+offset_top = 108.5
+offset_right = -57.0
+offset_bottom = 188.5
+grow_horizontal = 0
+grow_vertical = 2
+text = "刷新"
+
+[connection signal="pressed" from="Done" to="." method="OnFinish"]
+[connection signal="pressed" from="Refresh" to="." method="OnRefresh"]
