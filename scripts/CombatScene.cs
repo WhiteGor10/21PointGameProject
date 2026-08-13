@@ -449,7 +449,6 @@ public partial class CombatScene : Control
 				UpperBound = Math.Min(UpperBound, card.SpecialFunctionValue);
 			}
 		}
-		GD.Print("Num Of ACe : " + NumOfAces);
 		if (TotalValue > 21 && (NumOfAces > 0 || NumOfDevil > 0))
 		{
 			while (TotalValue > 21 && NumOfAces > 0)
@@ -479,7 +478,6 @@ public partial class CombatScene : Control
 		{
 			TotalValue = UpperBound;
 		}
-		GD.Print("Total value : " + TotalValue);
 		return TotalValue;
 	}
 	public void updateUI()

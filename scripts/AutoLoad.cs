@@ -29,6 +29,10 @@ public partial class AutoLoad : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (Input.IsActionPressed("Debug"))
+		{
+			Money += 10;
+		}
 	}
 	public void GetRandomEnemy()
 	{

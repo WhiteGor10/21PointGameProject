@@ -19,13 +19,46 @@ public partial class ExploreScene : Node2D
 		{
 			GetTree().ChangeSceneToFile("res://scenes/FailScene.tscn");
 		}
+		ManageDifficulty();
 		UpdateUI();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		
+		MoneyLabel.Text = "$" + AutoLoad.self.Money;
+	}
+	public void ManageDifficulty()
+	{
+		switch (AutoLoad.self.diffculty)
+		{
+			case 1:
+				if (AutoLoad.self.Money >= 150)
+				{
+					AutoLoad.self.diffculty = 2;
+				}
+				break;
+			case 2:
+				if (AutoLoad.self.Money >= 800)
+				{
+					AutoLoad.self.diffculty = 3;
+				}
+				break;
+			case 3:
+				if (AutoLoad.self.Money >= 3000)
+				{
+					AutoLoad.self.diffculty = 4;
+				}
+				break;
+			case 4:
+				if (AutoLoad.self.Money >= 10000)
+				{
+					AutoLoad.self.diffculty = 5;
+				}
+				break;
+			default:
+				break;
+		}
 	}
 	public void UpdateUI()
 	{
@@ -33,7 +66,15 @@ public partial class ExploreScene : Node2D
 
 		if (AutoLoad.self.BetValue <= 0)
 		{
-			AutoLoad.self.BetValue = 1;
+			AutoLoad.self.BetValue = (int)AutoLoad.self.BetMaxMin.X;
+			if (AutoLoad.self.Money < AutoLoad.self.BetValue)
+			{
+				AutoLoad.self.BetValue = AutoLoad.self.Money;
+			}
+			if (AutoLoad.self.BetValue <= 0)
+			{
+				AutoLoad.self.BetValue = 1;
+			}
 		}
 		BetValueLabel.Text = "$" + AutoLoad.self.BetValue;
 		MoneyLabel.Text = "$" + AutoLoad.self.Money;
@@ -48,7 +89,12 @@ public partial class ExploreScene : Node2D
 		}
 		if (value > AutoLoad.self.Money)
 		{
-			BetSlider.Value = AutoLoad.self.Money;
+			double MaxBet =  (AutoLoad.self.Money - AutoLoad.self.BetMaxMin.X) / (AutoLoad.self.BetMaxMin.Y - AutoLoad.self.BetMaxMin.X) * 10;
+			if (MaxBet <= 0)
+			{
+				MaxBet = 0;
+			}
+			BetSlider.Value = MaxBet;
 			value = AutoLoad.self.Money;
 		}
 		BetValueLabel.Text = "$" + value;
@@ -64,6 +110,7 @@ public partial class ExploreScene : Node2D
 			{
 				BetValue = 1;
 			}
+			GD.Print("Betvalue : " + BetValue);
 			AutoLoad.self.BetValue = BetValue;
 		}
 	}

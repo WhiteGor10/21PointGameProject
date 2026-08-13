@@ -21,55 +21,128 @@ OpponentTextures = Array[Texture2D]([ExtResource("2_robmh"), ExtResource("3_robm
 
 [node name="Difficulty1" type="Node2D" parent="." unique_id=2072897583]
 
-[node name="NormalEnemy1" type="Node2D" parent="Difficulty1" unique_id=111124234]
+[node name="WeakEnemy0_1" type="Node2D" parent="Difficulty1" unique_id=111124234]
 script = ExtResource("2_is3rd")
-NormalCards = PackedInt32Array(1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13)
+NormalCards = PackedInt32Array(8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9)
 BetMaxMin = Vector2(0, 10)
 
-[node name="NormalEnemy2" type="Node2D" parent="Difficulty1" unique_id=1692173344]
+[node name="WeakEnemy0_2" type="Node2D" parent="Difficulty1" unique_id=618928827]
+script = ExtResource("2_is3rd")
+NormalCards = PackedInt32Array(8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9)
+BetMaxMin = Vector2(0, 15)
+
+[node name="WeakEnemy1_1" type="Node2D" parent="Difficulty1" unique_id=1692173344]
 script = ExtResource("2_is3rd")
 characterindex = 1
-NormalCards = PackedInt32Array(1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13)
+NormalCards = PackedInt32Array(6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 10, 10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13)
 BetMaxMin = Vector2(0, 10)
 
-[node name="NormalEnemy3" type="Node2D" parent="Difficulty1" unique_id=1596566594]
+[node name="WeakEnemy1_2" type="Node2D" parent="Difficulty1" unique_id=453447965]
+script = ExtResource("2_is3rd")
+characterindex = 1
+NormalCards = PackedInt32Array(6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13)
+BetMaxMin = Vector2(0, 15)
+
+[node name="WeakEnemy2_1" type="Node2D" parent="Difficulty1" unique_id=1596566594]
 script = ExtResource("2_is3rd")
 characterindex = 2
-NormalCards = PackedInt32Array(1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13)
-BetMaxMin = Vector2(0, 10)
-
-[node name="NormalEnemy4" type="Node2D" parent="Difficulty1" unique_id=332384403]
-script = ExtResource("2_is3rd")
-characterindex = 3
-NormalCards = PackedInt32Array(1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13)
-BetMaxMin = Vector2(0, 10)
-
-[node name="NormalEnemy5" type="Node2D" parent="Difficulty1" unique_id=1000935875]
-script = ExtResource("2_is3rd")
-characterindex = 4
-NormalCards = PackedInt32Array(1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13)
-BetMaxMin = Vector2(0, 10)
-
-[node name="NormalEnemy6" type="Node2D" parent="Difficulty1" unique_id=1545375863]
-script = ExtResource("2_is3rd")
-characterindex = 5
-NormalCards = PackedInt32Array(1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13)
-BetMaxMin = Vector2(0, 10)
-
-[node name="NormalEnemy7" type="Node2D" parent="Difficulty1" unique_id=652259122]
-script = ExtResource("2_is3rd")
-characterindex = 6
-NormalCards = PackedInt32Array(1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13)
-BetMaxMin = Vector2(0, 10)
-
-[node name="NormalEnemy8" type="Node2D" parent="Difficulty1" unique_id=1801295612]
-script = ExtResource("2_is3rd")
-characterindex = 7
-NormalCards = PackedInt32Array(1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13)
+NormalCards = PackedInt32Array(4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8)
 BetMaxMin = Vector2(0, 10)
 
 [node name="Difficulty2" type="Node2D" parent="." unique_id=1650580055]
 
+[node name="WeakEnemy6_1" type="Node2D" parent="Difficulty2" unique_id=1660066426]
+script = ExtResource("2_is3rd")
+characterindex = 6
+NormalCards = PackedInt32Array(5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9)
+BetMaxMin = Vector2(10, 50)
+
+[node name="WeakEnemy7_1" type="Node2D" parent="Difficulty2" unique_id=966165343]
+script = ExtResource("2_is3rd")
+characterindex = 7
+NormalCards = PackedInt32Array(1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 10, 10, 10, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13)
+BetMaxMin = Vector2(10, 50)
+
+[node name="WeakEnemy0_3" type="Node2D" parent="Difficulty2" unique_id=307452662]
+script = ExtResource("2_is3rd")
+NormalCards = PackedInt32Array(8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9)
+BetMaxMin = Vector2(10, 50)
+
+[node name="WeakEnemy1_3" type="Node2D" parent="Difficulty2" unique_id=1077360975]
+script = ExtResource("2_is3rd")
+characterindex = 1
+NormalCards = PackedInt32Array(6, 6, 6, 6, 6, 6, 6, 6, 13, 13, 13, 13, 12, 12, 12, 12, 11, 11, 11, 11, 6, 6, 6, 6, 6, 13, 12, 11, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13)
+BetMaxMin = Vector2(10, 50)
+
+[node name="WeakEnemy2_2" type="Node2D" parent="Difficulty2" unique_id=8174770]
+script = ExtResource("2_is3rd")
+characterindex = 2
+NormalCards = PackedInt32Array(4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 4, 4, 4, 4, 4, 4, 4, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8)
+BetMaxMin = Vector2(10, 50)
+
 [node name="Difficulty3" type="Node2D" parent="." unique_id=213001622]
 
+[node name="NormalEnemy3_1" type="Node2D" parent="Difficulty3" unique_id=1565062090]
+script = ExtResource("2_is3rd")
+characterindex = 3
+NormalCards = PackedInt32Array(1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13)
+BetMaxMin = Vector2(50, 500)
+
+[node name="NormalEnemy4_1" type="Node2D" parent="Difficulty3" unique_id=1521641650]
+script = ExtResource("2_is3rd")
+characterindex = 4
+NormalCards = PackedInt32Array(1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13)
+BetMaxMin = Vector2(50, 500)
+
+[node name="NormalEnemy5_1" type="Node2D" parent="Difficulty3" unique_id=819301464]
+script = ExtResource("2_is3rd")
+characterindex = 5
+NormalCards = PackedInt32Array(1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13)
+BetMaxMin = Vector2(50, 500)
+
+[node name="WeakEnemy6_2" type="Node2D" parent="Difficulty3" unique_id=1556999902]
+script = ExtResource("2_is3rd")
+characterindex = 6
+NormalCards = PackedInt32Array(5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 5, 5, 5, 5, 5, 5, 5, 5, 7, 7, 7, 7)
+BetMaxMin = Vector2(30, 750)
+
+[node name="StrongEnemy7_2" type="Node2D" parent="Difficulty3" unique_id=429832513]
+script = ExtResource("2_is3rd")
+characterindex = 7
+NormalCards = PackedInt32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 13, 13, 13, 13, 12, 12, 12, 12, 10, 10, 10, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 11, 11, 11, 12, 12, 12, 12, 13, 13, 13, 13)
+BetMaxMin = Vector2(50, 770)
+
 [node name="Difficulty4" type="Node2D" parent="." unique_id=393076269]
+
+[node name="StrongEnemy3_2" type="Node2D" parent="Difficulty4" unique_id=2087641238]
+script = ExtResource("2_is3rd")
+characterindex = 3
+CardsIndex = PackedInt32Array(32, 32, 32, 32, 32, 32, 32, 32, 33, 33, 33, 33, 33, 33, 33, 33, 38, 38, 38, 38, 36, 36, 36, 36, 36, 36, 36, 36, 37, 37, 37, 37, 38, 38, 38, 38)
+NormalCards = PackedInt32Array(1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 7, 7)
+BetMaxMin = Vector2(500, 5000)
+
+[node name="StrongEnemy3_3" type="Node2D" parent="Difficulty4" unique_id=215551008]
+script = ExtResource("2_is3rd")
+characterindex = 3
+CardsIndex = PackedInt32Array(32, 32, 32, 32, 32, 32, 32, 32, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, 36, 36, 36, 36, 36, 36, 36, 36, 37, 37, 37, 37, 37, 37, 37, 37, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38)
+BetMaxMin = Vector2(100, 10000)
+
+[node name="StrongEnemy4_2" type="Node2D" parent="Difficulty4" unique_id=1111848151]
+script = ExtResource("2_is3rd")
+characterindex = 4
+CardsIndex = PackedInt32Array(34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 34, 0, 0, 0, 0)
+NormalCards = PackedInt32Array(1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 11, 12, 13, -1, -2, -3, -4)
+BetMaxMin = Vector2(100, 10000)
+
+[node name="StrongEnemy5_2" type="Node2D" parent="Difficulty4" unique_id=942397110]
+script = ExtResource("2_is3rd")
+characterindex = 5
+CardsIndex = PackedInt32Array(25, 25, 25, 25, 25, 25, 25, 25)
+NormalCards = PackedInt32Array(1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 6, 6, 7, 7, -5, -5, -5, -5, -5, -5, -5, -5, -5, -5, -6, -6, -6, -6, -6, -6, -6, -6, -6, -6, -6, -7, -7, -7, -7, -7, -7, -7, -7, -7)
+BetMaxMin = Vector2(500, 5000)
+
+[node name="StrongEnemy6_3" type="Node2D" parent="Difficulty4" unique_id=492205687]
+script = ExtResource("2_is3rd")
+characterindex = 6
+NormalCards = PackedInt32Array(3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 10, 10, 10, 10, 11, 11, 11, 12, 12, 12, 13, 13, 13)
+BetMaxMin = Vector2(300, 7500)

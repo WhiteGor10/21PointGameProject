@@ -28,7 +28,7 @@ public partial class BuyCard : Control
 	{
 		prices = new int[3];
 		Refresh();
-		RefreshPrice = 1 + (AutoLoad.self.diffculty - 1) * 10;
+		RefreshPrice =  4 * AutoLoad.self.diffculty *( AutoLoad.self.diffculty - 2 ) + 5;
 		RefreshButton.Text = "刷新($" + RefreshPrice + ")";
 	}
 
@@ -83,7 +83,7 @@ public partial class BuyCard : Control
 		for (int i = 0; i < 3; i++)
 		{
 			GenACards(i);
-			int BasePrice = 3 + (AutoLoad.self.diffculty - 1) * 100;
+			int BasePrice = 3 + 6 * AutoLoad.self.diffculty * (AutoLoad.self.diffculty - 1) ;
 			prices[i] = (int)(random.Next(5, 16) / 10f * BasePrice);
 			Prices[i].Text = "$" + prices[i];
 		}
