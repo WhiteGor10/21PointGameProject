@@ -55,44 +55,32 @@ public partial class AllEnemy : Node2D
 		{
 			return Difficulty1[random.Next(0, Difficulty1.Length)];
 		}
-		else if (diffculty == 2)        //50, 50
+		else if (diffculty == 2)        //20, 80
 		{
-			if (p <= 50)
+			if (p <= 20)
 			{
 				return Difficulty1[random.Next(0, Difficulty1.Length)];
 			}
 			return Difficulty2[random.Next(0, Difficulty2.Length)];
 		}
-		else if (diffculty == 3)        //20, 40, 40
+		else if (diffculty == 3)        //0, 30, 70
 		{
-			if (p <= 20)
-			{
-				return Difficulty1[random.Next(0, Difficulty1.Length)];
-			}
-			else if (p <= 60)
+			if (p <= 30)
 			{
 				return Difficulty2[random.Next(0, Difficulty2.Length)];
 			}
 			return Difficulty3[random.Next(0, Difficulty3.Length)];
 		}
-		else if (diffculty == 4)        //0, 20, 50, 30
-		{
-			if (p <= 20)
-			{
-				return Difficulty2[random.Next(0, Difficulty2.Length)];
-			}
-			else if (p <= 70)
-			{
-				return Difficulty3[random.Next(0, Difficulty3.Length)];
-			}
-			return Difficulty4[random.Next(0, Difficulty4.Length)];
-		}
-		else            //40, 60
+		else if (diffculty == 4)        //0, 0, 40, 60
 		{
 			if (p <= 40)
 			{
 				return Difficulty3[random.Next(0, Difficulty3.Length)];
 			}
+			return Difficulty4[random.Next(0, Difficulty4.Length)];
+		}
+		else            //100
+		{
 			return Difficulty4[random.Next(0, Difficulty4.Length)];
 		}
 	}
