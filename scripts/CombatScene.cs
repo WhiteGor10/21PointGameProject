@@ -37,6 +37,7 @@ public partial class CombatScene : Control
 	private bool IsOpponentStop = false;
 	private int EndStatus = -1;         // -1: not end, 0 lose, 1 draw, 2 win
 	private int AnimationSpeed = 1;
+	private int NumOfConvert;
 	private Random random = new Random();
 
 	public override void _Ready()
@@ -66,6 +67,7 @@ public partial class CombatScene : Control
 		updateUI();
 		GetCardButton.Disabled = false;
 		StopButton.Disabled = false;
+		NumOfConvert = 0;
 	}
 	public void LoadAnimationSpeed()
 	{
@@ -173,8 +175,8 @@ public partial class CombatScene : Control
 		if (EndStatus == -1)     //Both player and opponent Cards value must be <= 21
 		{
 			await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
-			int playerValue = TotalValue(PlayerCards);
-			int opponentValue = TotalValue(OpponentCards);
+			int playerValue = TotalValue(PlayerCards,true);
+			int opponentValue = TotalValue(OpponentCards,false);
 			if (playerValue > opponentValue)
 			{
 				EndStatus = 2;
@@ -205,7 +207,7 @@ public partial class CombatScene : Control
 		await PlayerDrawCard();
 		updateUI();
 
-		if (TotalValue(PlayerCards) > 21)
+		if (TotalValue(PlayerCards,true) > 21)
 		{
 			updateUI();
 			await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
@@ -229,16 +231,16 @@ public partial class CombatScene : Control
 	public async Task OpponentAction()
 	{
 		int AffordableDifference = 5;   //later may differ
-		int SelfTotalValue = TotalValue(OpponentCards);
-		if ((SelfTotalValue >= 21 - AffordableDifference && TotalValue(OpponentCards) > TotalValue(PlayerCards))
-			|| TotalValue(OpponentCards) == 21)
+		int SelfTotalValue = TotalValue(OpponentCards,false);
+		if ((SelfTotalValue >= 21 - AffordableDifference && TotalValue(OpponentCards,false) > TotalValue(PlayerCards,true))
+			|| TotalValue(OpponentCards,false) == 21)
 		{
 			IsOpponentStop = true;
 		}
 		else
 		{
 			await OpponentDrawCard();
-			if (TotalValue(OpponentCards) > 21)
+			if (TotalValue(OpponentCards,false) > 21)
 			{
 				updateUI();
 				await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
@@ -315,7 +317,7 @@ public partial class CombatScene : Control
 			{
 				for (int i = 0; i < Count; i++)
 				{
-					Array[i].ChangeCardValue(Array[Count - 1].SpecialFunctionValue);
+					Array[i].ChangeCardValue(Array[Count - 1].SpecialFunctionValue, false);
 					Array[i].IsAce = false;
 				}
 			}
@@ -342,14 +344,26 @@ public partial class CombatScene : Control
 					if (Array[target].specialFunction == CardData.SpecialFunction.Nirvana)
 					{
 						Array = Tool.AddElementToArray(Array, AddACard(new CardData(1), parent, Count + 1));
+						if (IsPlayer && AutoLoad.self.PlayerSkill == 3)
+						{
+							Array = Tool.AddElementToArray(Array, AddACard(new CardData(1), parent, Count + 1));
+						}
 					}
 					else if (Array[target].specialFunction == CardData.SpecialFunction.Deprave)
 					{
 						Array = Tool.AddElementToArray(Array, AddACard(AllCardDatas.self.cardDatas[0], parent, Count + 1));        //Add devil
+						if (IsPlayer && AutoLoad.self.PlayerSkill == 3)
+						{
+							Array = Tool.AddElementToArray(Array, AddACard(AllCardDatas.self.cardDatas[0], parent, Count + 1));
+						}
 					}
 					else if (Array[target].specialFunction == CardData.SpecialFunction.Chain)
 					{
 						times++;
+						if (IsPlayer && AutoLoad.self.PlayerSkill == 3)
+						{
+							times++;
+						}
 					}
 					else if (Array[target].specialFunction == CardData.SpecialFunction.ConvertOnDelete)
 					{
@@ -362,13 +376,42 @@ public partial class CombatScene : Control
 					times--;
 					if (ConvertOnDeleteValue != -1)
 					{
-						await ConvertCard(Array, Count, ConvertOnDeleteValue);
+						int Ctimes = 1;
+						bool IsConvertAce = false;
+						if (IsPlayer)
+						{
+							if (AutoLoad.self.PlayerSkill == 2 || AutoLoad.self.PlayerSkill == 3)
+							{
+								Ctimes = 2;
+							}
+							else if (AutoLoad.self.PlayerSkill == 4 && NumOfConvert == 0)
+							{
+								IsConvertAce = true;
+							}
+						}
+						await ConvertCard(Array, Count, ConvertOnDeleteValue, Ctimes, IsConvertAce);
+						NumOfConvert++;
 					}
 				}
 			}
 			if (Array[Count - 1].specialFunction == CardData.SpecialFunction.ConvertOnDraw)
 			{
-				await ConvertCard(Array, Count, Array[Count - 1].SpecialFunctionValue);
+				int Ctimes = 1;
+				bool IsConvertAce = false;
+				if (IsPlayer)
+				{
+					if (AutoLoad.self.PlayerSkill == 2)
+					{
+						Ctimes = 2;
+					}
+					else if (AutoLoad.self.PlayerSkill == 4 && NumOfConvert == 0)
+					{
+						IsConvertAce = true;
+					}
+
+				}
+				await ConvertCard(Array, Count, Array[Count - 1].SpecialFunctionValue, Ctimes, IsConvertAce);
+				NumOfConvert++;
 			}
 			await ToSignal(GetTree().CreateTimer(0.05f), SceneTreeTimer.SignalName.Timeout);
 		}
@@ -403,9 +446,8 @@ public partial class CombatScene : Control
 			OpponentCards = Array;
 		}
 	}
-	public async Task ConvertCard(Card[] Array, int Count, int tovalue)
+	public async Task ConvertCard(Card[] Array, int Count, int tovalue ,int times, bool IsAce)
 	{
-		int times = 1;
 		List<int> indices = Enumerable.Range(0, Count).ToList();		
 		//change order
 		for (int i = indices.Count - 1; i > 0; i--)
@@ -418,16 +460,21 @@ public partial class CombatScene : Control
 		for (int i = 0; i < actualTimes; i++)
 		{
 			int target = indices[i];
-			await Array[target].Convertion(tovalue);
+			await Array[target].Convertion(tovalue, IsAce);
 		}
 	}
 
-	public int TotalValue(Card[] cards)
+	public int TotalValue(Card[] cards, bool Isplayer)
 	{
 		int TotalValue = 0;
 		int NumOfAces = 0, NumOfDevil = 0;
 		bool ExistAbsolute = false;
 		int UpperBound = 999;
+		int WinTarget = 21;
+		if (Isplayer && AutoLoad.self.PlayerSkill == 1)
+		{
+			WinTarget = 42;
+		}
 		foreach (Card card in cards)
 		{
 			TotalValue += card.CardValue;
@@ -449,17 +496,17 @@ public partial class CombatScene : Control
 				UpperBound = Math.Min(UpperBound, card.SpecialFunctionValue);
 			}
 		}
-		if (TotalValue > 21 && (NumOfAces > 0 || NumOfDevil > 0))
+		if (TotalValue > WinTarget && (NumOfAces > 0 || NumOfDevil > 0))
 		{
-			while (TotalValue > 21 && NumOfAces > 0)
+			while (TotalValue > WinTarget && NumOfAces > 0)
 			{
 				TotalValue -= 10;
 				NumOfAces--;
 			}
-			while (TotalValue > 21 && NumOfDevil > 0)
+			while (TotalValue > WinTarget && NumOfDevil > 0)
 			{
 				int DevilValue = 10;        //initial = 10
-				while (TotalValue > 21 && DevilValue > 1)
+				while (TotalValue > WinTarget && DevilValue > 1)
 				{
 					TotalValue -= 1;
 					DevilValue -= 1;
@@ -473,17 +520,28 @@ public partial class CombatScene : Control
 			{
 				TotalValue = TotalValue * -1;
 			}
+			if (Isplayer && AutoLoad.self.PlayerSkill == 5)
+			{
+				if (TotalValue == -21)
+				{
+					TotalValue = 21;
+				}
+			}
 		}
 		if (TotalValue > UpperBound)
 		{
 			TotalValue = UpperBound;
 		}
+		if (Isplayer && AutoLoad.self.PlayerSkill == 1)
+		{
+			TotalValue = TotalValue / 2;
+		}
 		return TotalValue;
 	}
 	public void updateUI()
 	{
-		OpponentTotalValueLabel.Text = TotalValue(OpponentCards).ToString();
-		PlayerTotalValueLabel.Text = TotalValue(PlayerCards).ToString();
+		OpponentTotalValueLabel.Text = TotalValue(OpponentCards,false).ToString();
+		PlayerTotalValueLabel.Text = TotalValue(PlayerCards,true).ToString();
 	}
 	public void ShowWinLosePanel(string result)
 	{

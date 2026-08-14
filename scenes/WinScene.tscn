@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://dq3y1oyh8gmoj"]
+
+[ext_resource type="Script" uid="uid://uph8wlwtana5" path="res://scripts/WinScene.cs" id="1_nk6gu"]
+[ext_resource type="VideoStream" uid="uid://i7k5cfvx7fke" path="res://Video/Out.ogv" id="2_sh4x7"]
+[ext_resource type="VideoStream" uid="uid://dmk3ygrlwlylc" path="res://Video/Down.ogv" id="3_nk6gu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nk6gu"]
+bg_color = Color(0.029506553, 0.029506562, 0.029506536, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iwt72"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_olbwh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_42i35"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2mbas"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rbcjn"]
+
+[node name="WinScene" type="Control" unique_id=861273707 node_paths=PackedStringArray("Out", "Down", "EndPanel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nk6gu")
+Out = NodePath("Out")
+Down = NodePath("Down")
+EndPanel = NodePath("PanelContainer")
+
+[node name="Out" type="VideoStreamPlayer" parent="." unique_id=126224346]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -840.0
+offset_top = -472.5
+offset_right = 440.0
+offset_bottom = 247.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.32, 1.32)
+stream = ExtResource("2_sh4x7")
+
+[node name="Down" type="VideoStreamPlayer" parent="." unique_id=1008884074]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -840.0
+offset_top = -472.5
+offset_right = 440.0
+offset_bottom = 247.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.32, 1.32)
+stream = ExtResource("3_nk6gu")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=2047568557]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nk6gu")
+
+[node name="Label" type="Label" parent="PanelContainer" unique_id=1530044641]
+layout_mode = 2
+text = "你晕了，再醒来时在医院，你需要支付20万医药费......"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="PanelContainer" unique_id=1796533761]
+custom_minimum_size = Vector2(300, 80)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "点击以继续"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="PanelContainer" unique_id=528875241]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_iwt72")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_olbwh")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_42i35")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_2mbas")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_rbcjn")
+
+[connection signal="finished" from="Out" to="." method="OnOutFinish"]
+[connection signal="finished" from="Down" to="." method="OnDownFinish"]
+[connection signal="pressed" from="PanelContainer/Button" to="." method="Back"]

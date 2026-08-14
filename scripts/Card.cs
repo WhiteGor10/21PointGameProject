@@ -51,17 +51,17 @@ public partial class Card : ColorRect
 			Modulate = new Color(1, 1, 1, 1);
 		}
     }
-	public async Task Convertion(int value)
+	public async Task Convertion(int value, bool Isace)
 	{
 		animationPlayer.Play("Convert");
 		double time = animationPlayer.GetSectionEndTime() / animationPlayer.SpeedScale;
 		await ToSignal(GetTree().CreateTimer(time), SceneTreeTimer.SignalName.Timeout);
 
-		IsAce = false;
+		this.IsAce = false;
 		specialFunction = CardData.SpecialFunction.None;
 		SpecialIcon.Texture = null;
 		DescriptionLabel.Text = "";
-		ChangeCardValue(value);
+		ChangeCardValue(value, Isace);
 	}
 	public async Task AnimateDeletion()
 	{
@@ -135,14 +135,18 @@ public partial class Card : ColorRect
 		ValueLabel1.Text = valueString;
 		ValueLabel2.Text = valueString;
 	}
-	public void ChangeCardValue(int tovalue)
+	public void ChangeCardValue(int tovalue, bool Isace)
 	{
 		int value = tovalue;
-
 		string valueString;
-		CardValue = value;
-
 		valueString = value.ToString();
+		if (Isace)
+		{
+			IsAce = true;
+			value = 11;
+			valueString = "A";
+		}
+		CardValue = value;
 
 		ValueLabel1.Text = valueString;
 		ValueLabel2.Text = valueString;

@@ -18,6 +18,7 @@ public partial class AutoLoad : Node
 	public int diffculty;           //1-5
 
 	public int SelectedCardID = -1;         //ID in PlayerCardStorage
+	public int PlayerSkill = 0;
 	public static AutoLoad self;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -54,7 +55,7 @@ public partial class AutoLoad : Node
 			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[32]);
 			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[random.Next(36, 39)]);
 			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[38]);
-			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, new CardData(-1 * random.Next(1,11)));
+			//PlayerCardStorage = Tool.AddElementToArray(PlayerCardStorage, new CardData(-7));
 		}
 	}
 
