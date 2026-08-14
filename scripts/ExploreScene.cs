@@ -19,6 +19,10 @@ public partial class ExploreScene : Node2D
 		{
 			GetTree().ChangeSceneToFile("res://scenes/FailScene.tscn");
 		}
+		else if (AutoLoad.self.Money >= 100000)
+		{
+			GetTree().ChangeSceneToFile("res://scenes/WinScene.tscn");
+		}
 		ManageDifficulty();
 		UpdateUI();
 	}

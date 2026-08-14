@@ -72,7 +72,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_nk6gu")
 
 [node name="Label" type="Label" parent="PanelContainer" unique_id=1530044641]
 layout_mode = 2
-text = "你晕了，再醒来时在医院，你需要支付20万医药费......"
+text = "你晕了，再醒来时在医院，你需要支付10万医药费......"
 horizontal_alignment = 1
 vertical_alignment = 1
 

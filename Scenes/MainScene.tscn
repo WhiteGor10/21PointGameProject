@@ -105,7 +105,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_gnrv8")
 
 [node name="Label" type="Label" parent="MarginContainer2/PanelContainer" unique_id=1456183074]
 layout_mode = 2
-text = "你欠债20万，再不还的话，明天会有很可怕的后果......"
+text = "你欠债10万，再不还的话，明天会有很可怕的后果......"
 horizontal_alignment = 1
 vertical_alignment = 1
 

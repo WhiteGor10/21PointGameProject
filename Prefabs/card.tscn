@@ -177,6 +177,7 @@ vertical_alignment = 1
 
 [node name="Description" type="Label" parent="." unique_id=1466732204]
 custom_minimum_size = Vector2(190, 71)
+custom_maximum_size = Vector2(190, -1)
 layout_mode = 0
 offset_left = 5.0
 offset_top = 90.0
@@ -186,7 +187,7 @@ theme_override_font_sizes/font_size = 24
 text = "相邻卡牌数字-2"
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 2
+autowrap_mode = 3
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1026356868]
 position = Vector2(100, 70)
