@@ -528,13 +528,14 @@ public partial class CombatScene : Control
 				}
 			}
 		}
-		if (TotalValue > UpperBound)
-		{
-			TotalValue = UpperBound;
-		}
+		
 		if (Isplayer && AutoLoad.self.PlayerSkill == 1)
 		{
 			TotalValue = TotalValue / 2;
+		}
+		if (TotalValue > UpperBound)
+		{
+			TotalValue = UpperBound;
 		}
 		return TotalValue;
 	}

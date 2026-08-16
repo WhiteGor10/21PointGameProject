@@ -82,7 +82,7 @@ text = "排序"
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
-text = "点击想选择的卡牌"
+text = "点击想替换的卡牌"
 horizontal_alignment = 1
 vertical_alignment = 1
 

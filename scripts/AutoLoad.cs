@@ -71,51 +71,86 @@ public partial class AutoLoad : Node
 		}
 		return storage;
 	}
-	public void SortAccordingtoCardValue()
-	{
-		QuickSort(PlayerCardStorage);
-	}
-	public void QuickSort(CardData[] cards)
+
+	public void SortAccordingToCardValueThenSpecialFunction()
+    {
+        QuickSort(PlayerCardStorage, 3, true);
+    }
+    
+    // New method for sorting by both (SpecialFunction first, then CardValue)
+    public void SortAccordingToSpecialFunctionThenCardValue()
+    {
+        QuickSort(PlayerCardStorage, 4, true);
+    }
+    
+    // Modified QuickSort with sort mode parameter
+    public void QuickSort(CardData[] cards, int sortMode, bool ascending = true)
     {
         if (cards == null || cards.Length <= 1)
             return;
             
-        QuickSort(cards, 0, cards.Length - 1);
+        QuickSort(cards, 0, cards.Length - 1, sortMode, ascending);
     }
     
-    private void QuickSort(CardData[] cards, int low, int high)
+    private void QuickSort(CardData[] cards, int low, int high, int sortMode, bool ascending)
     {
         if (low < high)
         {
-            // Partition the array and get the pivot index
-            int pivotIndex = Partition(cards, low, high);
-            
-            // Recursively sort elements before and after partition
-            QuickSort(cards, low, pivotIndex - 1);
-            QuickSort(cards, pivotIndex + 1, high);
+            int pivotIndex = Partition(cards, low, high, sortMode, ascending);
+            QuickSort(cards, low, pivotIndex - 1, sortMode, ascending);
+            QuickSort(cards, pivotIndex + 1, high, sortMode, ascending);
         }
     }
     
-    private int Partition(CardData[] cards, int low, int high)
+    private int Partition(CardData[] cards, int low, int high, int sortMode, bool ascending)
     {
-        // Choose the rightmost element as pivot
-        int pivotValue = cards[high].CardValue;
-        int i = low - 1; // Index of smaller element
+        // Get the pivot key based on sort mode
+        int pivotValue = GetSortKey(cards[high], sortMode);
+        int i = low - 1;
         
         for (int j = low; j < high; j++)
         {
-            // If current element is less than or equal to pivot
-            if (cards[j].CardValue <= pivotValue)
+            int currentValue = GetSortKey(cards[j], sortMode);
+            
+            bool shouldSwap = ascending ? 
+                currentValue <= pivotValue : 
+                currentValue >= pivotValue;
+                
+            if (shouldSwap)
             {
                 i++;
                 Swap(cards, i, j);
             }
         }
         
-        // Place pivot in its correct position
         Swap(cards, i + 1, high);
         return i + 1;
     }
+
+	// Helper method to get the appropriate sort key
+	//1: ByCardValue, 2: BySpecialFunction, 3: CardValue first, then SpecialFunction, 4: SpecialFunction first, then CardValue
+    private int GetSortKey(CardData card, int sortMode)
+	{
+		switch (sortMode)
+		{
+			case 1:
+				return card.CardValue;
+
+			case 2:
+				return (int)card.SpecialFunctionIndex;
+
+			case 3:
+				// CardValue takes priority (multiplied by a large number)
+				return card.CardValue * 1000 + ((int)card.SpecialFunctionIndex + 1);
+
+			case 4:
+				// SpecialFunction takes priority
+				return ((int)card.SpecialFunctionIndex + 1) * 1000 + card.CardValue;
+
+			default:
+				return card.CardValue;
+		}
+	}
     
     private void Swap(CardData[] cards, int i, int j)
     {

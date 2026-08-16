@@ -12,10 +12,13 @@ public partial class PlayerCardStorage : Control
 	[Export]
 	public PackedScene CardPrefab;
 
+	private int State;		//Default 0, 1 is sorted by cardvalue, 2 is sorted by function
+
 	private Card[] cards;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		State = 0;
 		GenAllPlayerCards();
 		Reminder.Visible = false;
 		SortButton.Visible = true;
@@ -37,7 +40,17 @@ public partial class PlayerCardStorage : Control
 	}
 	public void Sort()
 	{
-		AutoLoad.self.SortAccordingtoCardValue();
+		if (State != 1)
+		{
+			AutoLoad.self.SortAccordingToCardValueThenSpecialFunction();
+			State = 1;
+		}
+		else
+		{
+			AutoLoad.self.SortAccordingToSpecialFunctionThenCardValue();
+			State = 2;
+		}
+
 		foreach (Card card in cards)
 		{
 			cards = Tool.DeleteElementFromArray(cards, card);
