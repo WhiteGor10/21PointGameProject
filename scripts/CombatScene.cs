@@ -473,7 +473,7 @@ public partial class CombatScene : Control
 		int WinTarget = 21;
 		if (Isplayer && AutoLoad.self.PlayerSkill == 1)
 		{
-			WinTarget = 42;
+			WinTarget = 43;
 		}
 		foreach (Card card in cards)
 		{
@@ -494,15 +494,11 @@ public partial class CombatScene : Control
 			else if (card.specialFunction == CardData.SpecialFunction.UpperBounds)
 			{
 				UpperBound = Math.Min(UpperBound, card.SpecialFunctionValue);
+				
 			}
 		}
 		if (TotalValue > WinTarget && (NumOfAces > 0 || NumOfDevil > 0))
 		{
-			while (TotalValue > WinTarget && NumOfAces > 0)
-			{
-				TotalValue -= 10;
-				NumOfAces--;
-			}
 			while (TotalValue > WinTarget && NumOfDevil > 0)
 			{
 				int DevilValue = 10;        //initial = 10
@@ -513,6 +509,12 @@ public partial class CombatScene : Control
 				}
 				NumOfDevil--;
 			}
+			while (TotalValue > WinTarget && NumOfAces > 0)
+			{
+				TotalValue -= 10;
+				NumOfAces--;
+			}
+			
 		}
 		if (TotalValue < 0)
 		{
@@ -533,6 +535,7 @@ public partial class CombatScene : Control
 		{
 			TotalValue = TotalValue / 2;
 		}
+
 		if (TotalValue > UpperBound)
 		{
 			TotalValue = UpperBound;

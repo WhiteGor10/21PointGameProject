@@ -54,7 +54,7 @@ public partial class AutoLoad : Node
 			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[random.Next(39, 43)]);
 			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[32]);
 			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[random.Next(36, 39)]);
-			//TempCardDatas = Tool.AddElementToArray(TempCardDatas, AllCardDatas.self.cardDatas[38]);
+			PlayerCardStorage = Tool.AddElementToArray(PlayerCardStorage, AllCardDatas.self.cardDatas[28]);
 			//PlayerCardStorage = Tool.AddElementToArray(PlayerCardStorage, new CardData(-7));
 		}
 	}
